@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weej - Professional AI Tools That Work Offline</title>
+  <meta name="description" content="Professional offline tools for AI prompts and productivity. No internet required, no subscriptions, complete privacy.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      margin-bottom: 30px;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .logo svg {
+      width: 350px;
+      height: auto;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+    
+    .hero-headline {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    
+    .hero-subheadline {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #cccccc;
+      margin-bottom: 15px;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    
+    .hero-benefits {
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+    
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    .benefit-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-right: 12px;
+      min-width: 140px;
+      text-align: right;
+    }
+    
+    .benefit-description {
+      color: #cccccc;
+      font-size: 1rem;
+      text-align: left;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 1s ease-out 0.8s both;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      color: white;
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(220, 38, 38, 0.4);
+    }
+
+    /* Tools Section */
+    .tools {
+      padding: 60px 20px;
+      background: #ffffff;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .tools-showcase {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 40px;
+      border-radius: 20px;
+    }
+
+    .tools-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .tools-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    .tools-subtitle {
+      font-size: 1.1rem;
+      color: #666666;
+    }
+    
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+    
+    .tool-card.demo-expanded {
+      grid-column: 1 / -1;
+      transform: translateY(-3px);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    }
+    
+    .tool-header {
+      height: 180px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+      padding: 20px;
+    }
+    
+    .tool-header-logo svg {
+      width: 120px;
+      height: auto;
+    }
+    
+    .tool-header-name {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0;
+    }
+    
+    .tool-content {
+      padding: 30px;
+    }
+    
+    .tool-description {
+      color: #666666;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .tool-features {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+    
+    .tool-features li {
+      color: #666666;
+      margin-bottom: 6px;
+      padding-left: 20px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+    
+    .tool-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    /* Demo Button */
+    .btn-demo {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: white;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    }
+    
+    .btn-demo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    }
+
+    /* Demo Interface Styles */
+    .demo-interface {
+      display: none;
+      border-top: 2px solid #e2e8f0;
+      margin-top: 25px;
+      padding-top: 25px;
+    }
+    
+    .demo-interface.active {
+      display: block;
+    }
+    
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    
+    .demo-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .demo-back-btn {
+      background: #6b7280;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .demo-back-btn:hover {
+      background: #4b5563;
+    }
+
+    .step-indicator {
+      background: #dc2626;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .demo-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    
+    .demo-panel {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .demo-panel-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+    
+    .demo-field {
+      margin-bottom: 15px;
+    }
+    
+    .demo-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+    
+    .demo-input, .demo-textarea, .demo-select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+    
+    .demo-textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    
+    .demo-input:focus, .demo-textarea:focus, .demo-select:focus {
+      outline: none;
+      border-color: #dc2626;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+    }
+
+    /* Active field highlighting */
+    .field-active {
+      border-color: #dc2626 !important;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1) !important;
+      background: white !important;
+    }
+
+    /* Template Selection */
+    .template-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    
+    .template-option {
+      padding: 10px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .template-option.selected {
+      border-color: #dc2626;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    }
+    
+    .template-name {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #1e293b;
+      margin-bottom: 2px;
+    }
+    
+    .template-desc {
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    /* Output fields */
+    .output-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    
+    .output-field {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+    
+    .output-field input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: #dc2626;
+    }
+    
+    .output-field.checked {
+      background: rgba(220, 38, 38, 0.05);
+      border-color: #dc2626;
+    }
+
+    /* Generate button */
+    .demo-generate-btn {
+      background: linear-gradient(135deg, #4CAF50, #66BB6A);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .demo-generate-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    }
+    
+    .demo-generate-btn.loading {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    /* Output panel */
+    .demo-output {
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 15px;
+      height: 400px;
+      overflow-y: auto;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: #374151;
+    }
+
+    .output-placeholder {
+      color: #9ca3af;
+      text-align: center;
+      padding: 40px 20px;
+      font-style: italic;
+    }
+
+    .generated-stories {
+      space-y: 15px;
+    }
+    
+    .story-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .story-header {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .story-id {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    
+    .story-points {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.7rem;
+    }
+    
+    .story-content {
+      padding: 15px;
+    }
+    
+    .story-text {
+      font-size: 0.8rem;
+      color: #374151;
+      margin-bottom: 10px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    
+    .story-section {
+      margin-bottom: 10px;
+    }
+    
+    .story-section-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 5px;
+    }
+    
+    .story-list {
+      list-style: none;
+      margin-left: 0;
+    }
+    
+    .story-list li {
+      font-size: 0.7rem;
+      color: #4b5563;
+      margin-bottom: 3px;
+      padding-left: 10px;
+      position: relative;
+    }
+    
+    .story-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+    }
+    
+    .quality-scores {
+      display: flex;
+      gap: 4px;
+      margin-top: 10px;
+    }
+    
+    .quality-score {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 0.6rem;
+    }
+    
+    .quality-score.excellent {
+      background: linear-gradient(135deg, #10b981, #059669);
+    }
+    
+    .quality-score.good {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+    }
+    
+    .demo-output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .demo-copy-btn {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 0.7rem;
+      transition: all 0.3s ease;
+    }
+    
+    .demo-copy-btn:hover {
+      background: #b91c1c;
+    }
+    
+    .demo-copy-btn.copied {
+      background: #22c55e;
+    }
+
+    .demo-actions {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .demo-btn {
+      background: linear-gradient(135deg, #4CAF50, #66BB6A);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    }
+
+    .demo-btn.secondary {
+      background: linear-gradient(135deg, #2196F3, #42A5F5);
+    }
+
+    .demo-btn.secondary:hover {
+      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+    }
+
+    /* Toast Notifications */
+    .demo-toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1f2937;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .demo-toast.show {
+      transform: translateX(0);
+    }
+    
+    .demo-toast.success {
+      background: linear-gradient(135deg, #059669, #10b981);
+    }
+    
+    .demo-toast.error {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 60px 20px;
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+    }
+    
+    .pricing-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 450px;
+      margin: 40px auto;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .price {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 8px;
+    }
+    
+    .price-subtitle {
+      font-size: 1.1rem;
+      color: #cccccc;
+      margin-bottom: 30px;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    
+    .pricing-features li {
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+      font-size: 1rem;
+    }
+    
+    .pricing-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    /* Footer */
+    .footer {
+      background: #0f0f0f;
+      color: white;
+      padding: 40px 20px 30px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo svg {
+      width: 180px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .footer-text {
+      font-size: 1rem;
+      color: #999999;
+      margin-bottom: 20px;
+    }
+    
+    .footer-contact {
+      color: #dc2626;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-contact:hover {
+      color: #ef4444;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .scroll-fade {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    
+    .scroll-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-headline {
+        font-size: 2.2rem;
+      }
+      
+      .hero-subheadline {
+        font-size: 1.1rem;
+      }
+      
+      .logo svg {
+        width: 280px;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn-primary {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .demo-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .tools-title {
+        font-size: 1.8rem;
+      }
+      
+      .price {
+        font-size: 3rem;
+      }
+
+      .demo-actions {
+        justify-content: center;
+      }
+
+      .template-selector {
+        grid-template-columns: 1fr;
+      }
+      
+      .output-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="logoShadow">
+              <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#logoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <h1 class="hero-headline">Professional AI Tools</h1>
+      <p class="hero-subheadline">Build Perfect Prompts & User Stories</p>
+      
+      <div class="hero-benefits">
+        <div class="benefit-item">
+          <span class="benefit-title">100% PRIVATE</span>
+          <span class="benefit-description">Your data never leaves your device</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-title">LIGHTNING FAST</span>
+          <span class="benefit-description">No internet delays or loading times</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-title">PROFESSIONAL GRADE</span>
+          <span class="benefit-description">Enterprise-quality templates and tools</span>
+        </div>
+      </div>
+      
+      <div class="cta-buttons">
+        <a href="#pricing" class="btn-primary">
+          <span>Get Started - $39</span>
+          <span>🚀</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section class="tools" id="tools">
+    <div class="container">
+      <div class="tools-showcase">
+        <div class="tools-header">
+          <h3 class="tools-title">Two Powerful Tools</h3>
+          <p class="tools-subtitle">Everything you need for AI prompt creation and agile story management</p>
+        </div>
+        
+        <div class="tools-grid" id="tools-grid">
+          <!-- SmartPromptz Tool Card -->
+          <div class="tool-card scroll-fade" id="tool-smartpromptz" data-tool="smartpromptz">
+            <div class="tool-header">
+              <div class="tool-header-logo">
+                <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <filter id="toolLogoShadow1">
+                      <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+                    </filter>
+                  </defs>
+                  <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">&lt;</text>
+                  <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#toolLogoShadow1)">Weej</text>
+                  <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">/</text>
+                  <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">&gt;</text>
+                </svg>
+              </div>
+              <h4 class="tool-header-name" style="font-size: 1.3rem;">SmartPromptz</h4>
+            </div>
+            
+            <div class="tool-content">
+              <div class="tool-info" id="tool-info-smartpromptz">
+                <p class="tool-description">The ultimate prompt builder with professional templates and guided creation. Transform vague ideas into precise AI instructions.</p>
+                <ul class="tool-features">
+                  <li>4 Professional templates</li>
+                  <li>Guided prompt construction</li>
+                  <li>Copy-paste ready outputs</li>
+                  <li>Mobile responsive design</li>
+                </ul>
+                
+                <a href="#" class="btn-demo" onclick="WeejDemos.show('smartpromptz')">
+                  <span>Try Live Demo</span>
+                  <span>🔥</span>
+                </a>
+              </div>
+              
+              <!-- Demo Interface -->
+              <div class="demo-interface" id="demo-smartpromptz">
+                <div class="demo-header">
+                  <div class="demo-title">
+                    <span>🎯</span>
+                    <span>SmartPromptz Live Demo</span>
+                  </div>
+                  <button class="demo-back-btn" onclick="WeejDemos.hide('smartpromptz')">← Back to Tools</button>
+                </div>
+                
+                <div class="demo-content">
+                  <div class="demo-panel">
+                    <h5 class="demo-panel-title">Build Your Prompt</h5>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Template</label>
+                      <select class="demo-select" id="smartpromptz-template" onchange="WeejDemos.applyTemplate('smartpromptz')">
+                        <option value="">-- Choose a template --</option>
+                        <option value="req_clarifier">❓ Requirements Clarifier</option>
+                        <option value="email_writer">📧 Email Writer</option>
+                        <option value="summarizer">📄 Summarizer</option>
+                        <option value="process_explainer">⚙️ Process Explainer</option>
+                      </select>
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">AI Role</label>
+                      <input type="text" class="demo-input" id="smartpromptz-role" placeholder="e.g., You are a business analyst..." oninput="WeejDemos.updatePrompt('smartpromptz')">
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Goal <span style="color: #dc2626;">*</span></label>
+                      <input type="text" class="demo-input" id="smartpromptz-goal" placeholder="What do you want the AI to accomplish?" oninput="WeejDemos.updatePrompt('smartpromptz')" required>
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Context</label>
+                      <textarea class="demo-textarea" id="smartpromptz-context" placeholder="Background information..." oninput="WeejDemos.updatePrompt('smartpromptz')"></textarea>
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Tone/Style</label>
+                      <input type="text" class="demo-input" id="smartpromptz-tone" placeholder="e.g., Professional, casual" oninput="WeejDemos.updatePrompt('smartpromptz')">
+                    </div>
+
+                    <div class="demo-actions">
+                      <button class="demo-btn" onclick="WeejDemos.generatePrompt('smartpromptz')">Build Prompt</button>
+                      <button class="demo-btn secondary" onclick="WeejDemos.refinePrompt('smartpromptz')">Add Refinement</button>
+                    </div>
+                  </div>
+                  
+                  <div class="demo-panel">
+                    <div class="demo-output-header">
+                      <h5 class="demo-panel-title">Generated Prompt</h5>
+                      <button class="demo-copy-btn" id="copy-smartpromptz" onclick="WeejDemos.copy('smartpromptz')">📋 Copy</button>
+                    </div>
+                    <div class="demo-output" id="output-smartpromptz">
+                      <div style="color: #9ca3af; text-align: center; padding: 20px;">Choose a template or fill in the form to see your professional prompt generate in real-time</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- USB Tool Card -->
+          <div class="tool-card scroll-fade" id="tool-usb" data-tool="usb">
+            <div class="tool-header">
+              <div class="tool-header-logo">
+                <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <filter id="toolLogoShadow2">
+                      <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+                    </filter>
+                  </defs>
+                  <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">&lt;</text>
+                  <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#toolLogoShadow2)">Weej</text>
+                  <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">/</text>
+                  <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">&gt;</text>
+                </svg>
+              </div>
+              <h4 class="tool-header-name">USB - User Story Builder</h4>
+            </div>
+            <div class="tool-content">
+              <div class="tool-info" id="tool-info-usb">
+                <p class="tool-description">Professional agile story creation tool. Generate complete user stories from requirements with acceptance criteria and story points.</p>
+                <ul class="tool-features">
+                  <li>Smart template detection</li>
+                  <li>Auto story point estimation</li>
+                  <li>Export to Jira/Azure DevOps</li>
+                  <li>Quality indicators included</li>
+                </ul>
+                
+                <a href="#" class="btn-demo" onclick="WeejDemos.show('usb')">
+                  <span>Watch Auto Demo</span>
+                  <span>🎬</span>
+                </a>
+              </div>
+
+              <!-- USB Demo Interface -->
+              <div class="demo-interface" id="demo-usb">
+                <div class="demo-header">
+                  <div class="demo-title">
+                    <span id="usb-demo-icon">🎯</span>
+                    <span>USB - User Story Builder Auto Demo</span>
+                  </div>
+                  <div class="step-indicator" id="usb-step-indicator">Step 1 of 4</div>
+                  <button class="demo-back-btn" onclick="WeejDemos.hide('usb')">← Back to Tools</button>
+                </div>
+                
+                <div class="demo-content">
+                  <div class="demo-panel">
+                    <h5 class="demo-panel-title">Configure Your Project</h5>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Project Name</label>
+                      <input type="text" class="demo-input" id="usb-project" placeholder="e.g., E-commerce Platform">
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Template Format</label>
+                      <div class="template-selector">
+                        <div class="template-option" id="usb-template-classic">
+                          <div class="template-name">Classic Agile</div>
+                          <div class="template-desc">As a... I want... So that...</div>
+                        </div>
+                        <div class="template-option" id="usb-template-job">
+                          <div class="template-name">Job Stories</div>
+                          <div class="template-desc">When I... I want... So I can...</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="demo-field">
+                      <label class="demo-label">Requirements</label>
+                      <textarea class="demo-textarea" id="usb-requirements" placeholder="Enter your functional requirements here..."></textarea>
+                    </div>
+
+                    <div class="demo-field" id="usb-output-fields-section" style="display: none;">
+                      <label class="demo-label">Include in Stories</label>
+                      <div class="output-fields">
+                        <div class="output-field" id="usb-field-points">
+                          <input type="checkbox" id="usb-checkbox-points">
+                          <label>Story Points</label>
+                        </div>
+                        <div class="output-field" id="usb-field-criteria">
+                          <input type="checkbox" id="usb-checkbox-criteria">
+                          <label>Acceptance Criteria</label>
+                        </div>
+                        <div class="output-field" id="usb-field-dod">
+                          <input type="checkbox" id="usb-checkbox-dod">
+                          <label>Definition of Done</label>
+                        </div>
+                        <div class="output-field" id="usb-field-quality">
+                          <input type="checkbox" id="usb-checkbox-quality">
+                          <label>Quality Indicators</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button class="demo-generate-btn" id="usb-generate-btn" style="display: none;">Generate User Stories</button>
+                  </div>
+                  
+                  <div class="demo-panel">
+                    <div class="demo-output-header">
+                      <h5 class="demo-panel-title">Generated User Stories</h5>
+                      <button class="demo-copy-btn" id="copy-usb" onclick="WeejDemos.copy('usb')" style="display: none;">📋 Copy</button>
+                    </div>
+                    <div class="demo-output" id="output-usb">
+                      <div class="output-placeholder">Watch as requirements transform into professional user stories with full agile details...</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="tools-title" style="color: white;">Complete Professional Bundle</h2>
+        <p class="tools-subtitle" style="color: #cccccc;">Both tools, complete workflow, lifetime access. No subscriptions.</p>
+      </div>
+      
+      <div class="pricing-card">
+        <div class="price">$39</div>
+        <p class="price-subtitle">Complete Bundle • One-time payment • Lifetime access</p>
+        
+        <ul class="pricing-features">
+          <li>SmartPromptz - Professional prompt builder</li>
+          <li>USB - User Story Builder</li>
+          <li>Complete requirements → user stories workflow</li>
+          <li>4+ AI prompt templates (growing library)</li>
+          <li>Export to Jira/Azure DevOps</li>
+          <li>100% offline functionality</li>
+          <li>No subscriptions or recurring fees</li>
+          <li>Free template updates for life</li>
+        </ul>
+        
+        <a href="#" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 20px;">
+          <span>Buy Now - $39</span>
+          <span>💳</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="footerLogoShadow">
+              <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#footerLogoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <p class="footer-text">Professional offline tools that respect your privacy and boost your productivity.</p>
+      
+      <a href="mailto:feedback@weej.app" class="footer-contact">feedback@weej.app</a>
+    </div>
+  </footer>
+
+  <script>
+    // SmartPromptz Templates (existing functionality)
+    const SmartPromptzTemplates = {
+      req_clarifier: {
+        role: "You are a business analyst and requirements expert specializing in project clarification",
+        goal: "Break down vague requirements into specific, actionable specifications",
+        context: "Project planning where requirements need to be clarified, detailed, and made actionable",
+        tone: "Analytical, thorough, and consultative",
+        format: "list",
+        constraints: "Ask specific, probing questions that lead to actionable answers",
+        examples: "Key Clarification Questions:\n1. What specific outcomes define success?\n2. Who are the primary users?\n3. What are must-have vs. nice-to-have features?",
+        description: "Transforms unclear requests into detailed specifications by asking the right questions."
+      },
+      email_writer: {
+        role: "You are a professional business communication expert specializing in effective email writing",
+        goal: "Write a professional, clear, and action-oriented email",
+        context: "Business communication requiring clear messaging, appropriate tone, and specific outcomes",
+        tone: "Professional, courteous, and purposeful",
+        format: "paragraph",
+        constraints: "Keep concise but complete, include clear subject line and call-to-action",
+        examples: "Subject: [Clear subject]\n\nHi [Name],\n\n[Context and purpose]\n[Main message]\n[Next steps]\n\nBest regards,",
+        description: "For crafting professional emails and business correspondence that gets results."
+      },
+      summarizer: {
+        role: "You are a professional content summarizer and analyst",
+        goal: "Summarize the following content into clear, actionable key points",
+        context: "Extract the most important information from long text while preserving context and meaning",
+        tone: "Professional and concise",
+        format: "list",
+        constraints: "Keep under 200 words, focus on actionable insights",
+        examples: "• Main point 1: [key insight]\n• Main point 2: [important detail]\n• Key takeaway: [actionable conclusion]",
+        description: "Perfect for condensing articles, reports, or documents into digestible summaries."
+      },
+      process_explainer: {
+        role: "You are a technical documentation expert and process improvement specialist",
+        goal: "Explain complex processes in clear, logical, easy-to-follow steps",
+        context: "Documentation or training requiring step-by-step clarity and practical implementation",
+        tone: "Clear, educational, and systematic",
+        format: "step-by-step",
+        constraints: "Break into logical sequential steps, include tips and common pitfalls",
+        examples: "Step 1: [Clear action]\n- Tip: [Helpful guidance]\n- Watch out for: [Common mistake]",
+        description: "Transforms complex workflows into easy-to-follow instructions."
+      }
+    };
+
+    // Extended WeejDemos object with USB functionality
+    const WeejDemos = {
+      currentTool: null,
+      usbDemoState: 'stopped',
+      usbTimeout: null,
+      
+      // Existing SmartPromptz methods...
+      show: function(toolName) {
+        try {
+          const toolCard = document.getElementById('tool-' + toolName);
+          const toolInfo = document.getElementById('tool-info-' + toolName);
+          const demoInterface = document.getElementById('demo-' + toolName);
+          
+          if (toolCard && toolInfo && demoInterface) {
+            this.currentTool = toolName;
+            toolCard.classList.add('demo-expanded');
+            toolInfo.style.display = 'none';
+            demoInterface.classList.add('active');
+            
+            // Initialize demo
+            this.initializeDemo(toolName);
+            
+            // Start USB auto-demo if it's USB
+            if (toolName === 'usb') {
+              this.startUSBDemo();
+            }
+            
+            // Smooth scroll
+            setTimeout(() => {
+              toolCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+          }
+        } catch (error) {
+          console.error('Error showing demo:', error);
+          this.showToast('Error loading demo', 'error');
+        }
+        
+        return false;
+      },
+
+      hide: function(toolName) {
+        try {
+          const toolCard = document.getElementById('tool-' + toolName);
+          const toolInfo = document.getElementById('tool-info-' + toolName);
+          const demoInterface = document.getElementById('demo-' + toolName);
+          
+          if (toolCard && toolInfo && demoInterface) {
+            this.currentTool = null;
+            toolCard.classList.remove('demo-expanded');
+            demoInterface.classList.remove('active');
+            toolInfo.style.display = 'block';
+            
+            // Stop USB demo if running
+            if (toolName === 'usb') {
+              this.stopUSBDemo();
+            }
+            
+            // Clear demo state
+            this.clearDemo(toolName);
+          }
+        } catch (error) {
+          console.error('Error hiding demo:', error);
+        }
+        
+        return false;
+      },
+
+      initializeDemo: function(toolName) {
+        if (toolName === 'smartpromptz') {
+          this.updatePrompt('smartpromptz');
+        }
+        // USB demo auto-starts, no manual initialization needed
+      },
+
+      clearDemo: function(toolName) {
+        if (toolName === 'smartpromptz') {
+          // Reset SmartPromptz form
+          const fields = ['template', 'role', 'goal', 'context', 'tone'];
+          fields.forEach(field => {
+            const element = document.getElementById(`smartpromptz-${field}`);
+            if (element) {
+              element.value = '';
+              element.classList.remove('demo-error', 'demo-success');
+            }
+          });
+
+          const output = document.getElementById('output-smartpromptz');
+          if (output) {
+            output.innerHTML = '<div style="color: #9ca3af; text-align: center; padding: 20px;">Choose a template or fill in the form to see your professional prompt generate in real-time</div>';
+          }
+
+          this.clearErrors('smartpromptz');
+        } else if (toolName === 'usb') {
+          // Reset USB demo
+          this.resetUSBDemo();
+        }
+      },
+
+      // USB Auto-Demo Functions
+      startUSBDemo: function() {
+        this.usbDemoState = 'running';
+        this.resetUSBDemo();
+        this.runUSBDemoSequence();
+      },
+
+      stopUSBDemo: function() {
+        this.usbDemoState = 'stopped';
+        if (this.usbTimeout) {
+          clearTimeout(this.usbTimeout);
+          this.usbTimeout = null;
+        }
+      },
+
+      resetUSBDemo: function() {
+        // Reset all fields
+        document.getElementById('usb-project').value = '';
+        document.getElementById('usb-requirements').value = '';
+        
+        // Reset template selection
+        document.getElementById('usb-template-classic').classList.remove('selected');
+        document.getElementById('usb-template-job').classList.remove('selected');
+        
+        // Reset output fields
+        const outputFields = ['points', 'criteria', 'dod', 'quality'];
+        outputFields.forEach(field => {
+          document.getElementById(`usb-field-${field}`).classList.remove('checked');
+          document.getElementById(`usb-checkbox-${field}`).checked = false;
+        });
+        
+        // Hide/show appropriate elements
+        document.getElementById('usb-output-fields-section').style.display = 'none';
+        document.getElementById('usb-generate-btn').style.display = 'none';
+        document.getElementById('copy-usb').style.display = 'none';
+        
+        // Reset output
+        document.getElementById('output-usb').innerHTML = '<div class="output-placeholder">Watch as requirements transform into professional user stories with full agile details...</div>';
+        
+        // Reset step indicator
+        document.getElementById('usb-step-indicator').textContent = 'Step 1 of 4';
+        document.getElementById('usb-demo-icon').textContent = '🎯';
+        
+        // Remove active field highlighting
+        const inputs = document.querySelectorAll('#demo-usb .demo-input, #demo-usb .demo-textarea');
+        inputs.forEach(input => input.classList.remove('field-active'));
+      },
+
+      runUSBDemoSequence: function() {
+        if (this.usbDemoState !== 'running') return;
+        
+        // Step 1: Project Setup (3 seconds)
+        this.updateUSBStep(1, '⚙️', 'Configuring project...');
+        document.getElementById('usb-project').classList.add('field-active');
+        this.typeText('usb-project', 'Customer Portal', 100, () => {
+          if (this.usbDemoState !== 'running') return;
+          
+          document.getElementById('usb-project').classList.remove('field-active');
+          
+          // Select Classic Agile template
+          this.usbTimeout = setTimeout(() => {
+            if (this.usbDemoState !== 'running') return;
+            document.getElementById('usb-template-classic').classList.add('selected');
+            
+            // Step 2: Requirements Entry (8 seconds)
+            this.usbTimeout = setTimeout(() => {
+              if (this.usbDemoState !== 'running') return;
+              this.updateUSBStep(2, '⌨️', 'Entering requirements...');
+              document.getElementById('usb-requirements').classList.add('field-active');
+              
+              const requirements = `User login system with email and password authentication, including forgot password functionality.
+
+FAQ section with searchable knowledge base and categorized help articles for customer self-service.`;
+              
+              this.typeText('usb-requirements', requirements, 40, () => {
+                if (this.usbDemoState !== 'running') return;
+                
+                document.getElementById('usb-requirements').classList.remove('field-active');
+                
+                // Step 3: Configuration (4 seconds)
+                this.usbTimeout = setTimeout(() => {
+                  if (this.usbDemoState !== 'running') return;
+                  this.updateUSBStep(3, '⚙️', 'Configuring output...');
+                  document.getElementById('usb-output-fields-section').style.display = 'block';
+                  
+                  // Check output fields one by one
+                  const fields = ['points', 'criteria', 'dod', 'quality'];
+                  let fieldIndex = 0;
+                  
+                  const checkNextField = () => {
+                    if (this.usbDemoState !== 'running' || fieldIndex >= fields.length) {
+                      // Show generate button
+                      this.usbTimeout = setTimeout(() => {
+                        if (this.usbDemoState !== 'running') return;
+                        document.getElementById('usb-generate-btn').style.display = 'block';
+                        
+                        // Step 4: Generation (3 seconds)
+                        this.usbTimeout = setTimeout(() => {
+                          if (this.usbDemoState !== 'running') return;
+                          this.updateUSBStep(4, '🔄', 'Generating stories...');
+                          document.getElementById('usb-generate-btn').classList.add('loading');
+                          document.getElementById('usb-generate-btn').textContent = 'Generating...';
+                          
+                          // Show results after loading
+                          this.usbTimeout = setTimeout(() => {
+                            if (this.usbDemoState !== 'running') return;
+                            this.showUSBResults();
+                            
+                            // Restart demo after 15 seconds
+                            this.usbTimeout = setTimeout(() => {
+                              if (this.usbDemoState === 'running') {
+                                this.startUSBDemo();
+                              }
+                            }, 15000);
+                          }, 3000);
+                        }, 1000);
+                      }, 500);
+                      return;
+                    }
+                    
+                    const field = fields[fieldIndex];
+                    document.getElementById(`usb-field-${field}`).classList.add('checked');
+                    document.getElementById(`usb-checkbox-${field}`).checked = true;
+                    fieldIndex++;
+                    
+                    this.usbTimeout = setTimeout(checkNextField, 800);
+                  };
+                  
+                  checkNextField();
+                }, 2000);
+              });
+            }, 1000);
+          }, 1000);
+        });
+      },
+
+      updateUSBStep: function(step, icon, text) {
+        document.getElementById('usb-step-indicator').textContent = step === 4 ? 'Complete!' : `Step ${step} of 4`;
+        document.getElementById('usb-demo-icon').textContent = icon;
+      },
+
+      showUSBResults: function() {
+        this.updateUSBStep(4, '✅', 'Complete!');
+        document.getElementById('usb-generate-btn').classList.remove('loading');
+        document.getElementById('usb-generate-btn').textContent = '✓ Stories Generated';
+        document.getElementById('usb-generate-btn').style.background = '#16a34a';
+        document.getElementById('copy-usb').style.display = 'block';
+        
+        const storiesHTML = `
+          <div class="generated-stories">
+            <div class="story-card">
+              <div class="story-header">
+                <div class="story-id">US-001</div>
+                <div class="story-points">5</div>
+              </div>
+              <div class="story-content">
+                <div class="story-text">
+                  <strong>As a</strong> customer, <strong>I want to</strong> log into my account with email and password <strong>so that</strong> I can access my personalized portal and manage my information securely.
+                </div>
+                
+                <div class="story-section">
+                  <div class="story-section-title">Acceptance Criteria</div>
+                  <ul class="story-list">
+                    <li>Given I am on the login page, when I enter valid credentials, then I am redirected to my dashboard</li>
+                    <li>Given I enter invalid credentials, when I submit, then I see an appropriate error message</li>
+                    <li>Given I forget my password, when I click "Forgot Password", then I receive a reset link via email</li>
+                  </ul>
+                </div>
+                
+                <div class="story-section">
+                  <div class="story-section-title">Definition of Done</div>
+                  <ul class="story-list">
+                    <li>Code is written and peer reviewed</li>
+                    <li>Unit tests are written and passing</li>
+                    <li>Feature is tested in development environment</li>
+                    <li>Security review completed</li>
+                  </ul>
+                </div>
+                
+                <div class="quality-scores">
+                  <div class="quality-score excellent" title="Independent: 8/10">8</div>
+                  <div class="quality-score excellent" title="Negotiable: 7/10">7</div>
+                  <div class="quality-score excellent" title="Valuable: 9/10">9</div>
+                  <div class="quality-score good" title="Estimable: 8/10">8</div>
+                  <div class="quality-score excellent" title="Testable: 8/10">8</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="story-card">
+              <div class="story-header">
+                <div class="story-id">US-002</div>
+                <div class="story-points">3</div>
+              </div>
+              <div class="story-content">
+                <div class="story-text">
+                  <strong>As a</strong> customer, <strong>I want to</strong> search and browse an FAQ section <strong>so that</strong> I can quickly find answers to common questions without contacting support.
+                </div>
+                
+                <div class="story-section">
+                  <div class="story-section-title">Acceptance Criteria</div>
+                  <ul class="story-list">
+                    <li>Given I am on the FAQ page, when I enter search terms, then I see relevant articles highlighted</li>
+                    <li>Given I browse categories, when I click a category, then I see all related articles</li>
+                    <li>Given I view an article, when I find it helpful, then I can rate it positively</li>
+                  </ul>
+                </div>
+                
+                <div class="story-section">
+                  <div class="story-section-title">Definition of Done</div>
+                  <ul class="story-list">
+                    <li>Code is written and peer reviewed</li>
+                    <li>Unit tests are written and passing</li>
+                    <li>Feature is tested in development environment</li>
+                    <li>Documentation is updated</li>
+                  </ul>
+                </div>
+                
+                <div class="quality-scores">
+                  <div class="quality-score excellent" title="Independent: 9/10">9</div>
+                  <div class="quality-score good" title="Negotiable: 8/10">8</div>
+                  <div class="quality-score excellent" title="Valuable: 8/10">8</div>
+                  <div class="quality-score excellent" title="Estimable: 7/10">7</div>
+                  <div class="quality-score excellent" title="Testable: 9/10">9</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('output-usb').innerHTML = storiesHTML;
+      },
+
+      typeText: function(elementId, text, speed, callback) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        let index = 0;
+        const type = () => {
+          if (this.usbDemoState !== 'running') return;
+          
+          element.value = text.substring(0, index);
+          index++;
+          
+          if (index <= text.length) {
+            this.usbTimeout = setTimeout(type, speed);
+          } else if (callback) {
+            callback();
+          }
+        };
+        
+        type();
+      },
+
+      // Existing SmartPromptz methods...
+      applyTemplate: function(toolName) {
+        if (toolName !== 'smartpromptz') return;
+
+        try {
+          const templateSelect = document.getElementById('smartpromptz-template');
+          const templateId = templateSelect.value;
+          
+          if (templateId && SmartPromptzTemplates[templateId]) {
+            const template = SmartPromptzTemplates[templateId];
+            
+            const fields = ['role', 'goal', 'context', 'tone'];
+            fields.forEach(field => {
+              const element = document.getElementById(`smartpromptz-${field}`);
+              if (element && template[field]) {
+                element.value = template[field];
+                element.classList.remove('demo-error');
+                element.classList.add('demo-success');
+                
+                setTimeout(() => {
+                  element.classList.remove('demo-success');
+                }, 2000);
+              }
+            });
+            
+            this.showToast('Template applied successfully!', 'success');
+            this.updatePrompt('smartpromptz');
+          }
+        } catch (error) {
+          console.error('Error applying template:', error);
+          this.showToast('Error applying template', 'error');
+        }
+      },
+      
+      updatePrompt: function(toolName) {
+        if (toolName !== 'smartpromptz') return;
+
+        try {
+          const formData = {
+            role: this.getValue('smartpromptz-role'),
+            goal: this.getValue('smartpromptz-goal'),
+            context: this.getValue('smartpromptz-context'),
+            tone: this.getValue('smartpromptz-tone')
+          };
+          
+          const output = document.getElementById('output-smartpromptz');
+          if (output) {
+            if (formData.goal && formData.goal.length > 0) {
+              const prompt = this.buildPrompt(formData);
+              output.textContent = prompt;
+            } else {
+              output.innerHTML = '<div style="color: #9ca3af; text-align: center; padding: 20px;">Choose a template or fill in the form to see your professional prompt generate in real-time</div>';
+            }
+          }
+        } catch (error) {
+          console.error('Error updating prompt:', error);
+        }
+      },
+
+      generatePrompt: function(toolName) {
+        if (toolName !== 'smartpromptz') return;
+
+        try {
+          this.clearErrors(toolName);
+          
+          const goal = this.getValue('smartpromptz-goal');
+          if (!goal || goal.length < 3) {
+            this.showFieldError('smartpromptz-goal', 'Goal is required (minimum 3 characters)');
+            this.showToast('Please enter a goal before generating', 'error');
+            return;
+          }
+
+          this.updatePrompt('smartpromptz');
+          this.showToast('Prompt generated successfully!', 'success');
+          
+          const output = document.getElementById('output-smartpromptz');
+          if (output) {
+            output.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        } catch (error) {
+          console.error('Error generating prompt:', error);
+          this.showToast('Error generating prompt', 'error');
+        }
+      },
+
+      refinePrompt: function(toolName) {
+        if (toolName !== 'smartpromptz') return;
+
+        try {
+          const output = document.getElementById('output-smartpromptz');
+          if (!output) return;
+
+          const currentPrompt = output.textContent;
+          if (!currentPrompt || currentPrompt.includes('Choose a template')) {
+            this.showToast('Please generate a prompt first', 'error');
+            return;
+          }
+
+          const refinedPrompt = currentPrompt + 
+            "\n\n---\n\n" +
+            "REFINEMENT INSTRUCTIONS:\n" +
+            "Please refine and improve this prompt to make it more effective. Consider:\n" +
+            "• More precise and specific language\n" +
+            "• Better structure and organization\n" +
+            "• Clearer instructions and expectations\n" +
+            "• More detailed examples if needed\n" +
+            "• Enhanced context where appropriate\n\n" +
+            "Provide the refined version of the above prompt.";
+
+          output.textContent = refinedPrompt;
+          this.showToast('Refinement instructions added!', 'success');
+        } catch (error) {
+          console.error('Error refining prompt:', error);
+          this.showToast('Error refining prompt', 'error');
+        }
+      },
+
+      buildPrompt: function(formData) {
+        let prompt = "";
+        
+        if (formData.role) {
+          prompt += `${formData.role}\n\n`;
+        }
+        
+        if (formData.goal) {
+          prompt += `Your task: ${formData.goal}\n\n`;
+        }
+        
+        if (formData.context) {
+          prompt += `Context: ${formData.context}\n\n`;
+        }
+        
+        if (formData.tone) {
+          prompt += `Tone and style: ${formData.tone}\n\n`;
+        }
+        
+        prompt += "Please provide your response following all the above guidelines and requirements.";
+        
+        return prompt;
+      },
+
+      getValue: function(elementId) {
+        try {
+          const element = document.getElementById(elementId);
+          return element ? element.value.trim() : '';
+        } catch (error) {
+          console.error(`Error getting value for ${elementId}:`, error);
+          return '';
+        }
+      },
+
+      showFieldError: function(fieldId, message) {
+        try {
+          const field = document.getElementById(fieldId);
+          if (!field) return;
+          
+          field.classList.add('demo-error');
+          field.focus();
+          
+          this.clearFieldError(fieldId);
+          
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'demo-error-message';
+          errorDiv.textContent = message;
+          errorDiv.setAttribute('data-field', fieldId);
+          
+          field.parentNode.appendChild(errorDiv);
+        } catch (error) {
+          console.error('Error showing field error:', error);
+        }
+      },
+
+      clearFieldError: function(fieldId) {
+        try {
+          const existingError = document.querySelector(`.demo-error-message[data-field="${fieldId}"]`);
+          if (existingError) {
+            existingError.remove();
+          }
+        } catch (error) {
+          console.error('Error clearing field error:', error);
+        }
+      },
+
+      clearErrors: function(toolName) {
+        try {
+          const errorElements = document.querySelectorAll('.demo-error');
+          errorElements.forEach(el => el.classList.remove('demo-error'));
+          
+          const errorMessages = document.querySelectorAll('.demo-error-message');
+          errorMessages.forEach(el => el.remove());
+        } catch (error) {
+          console.error('Error clearing errors:', error);
+        }
+      },
+      
+      copy: function(toolName) {
+        try {
+          const output = document.getElementById('output-' + toolName);
+          const copyBtn = document.getElementById('copy-' + toolName);
+          
+          if (!output || !copyBtn) return false;
+          
+          let promptText = '';
+          
+          if (toolName === 'usb') {
+            // For USB, create a text version of the generated stories
+            promptText = `USER STORIES - Customer Portal
+
+US-001 (5 points)
+As a customer, I want to log into my account with email and password so that I can access my personalized portal and manage my information securely.
+
+Acceptance Criteria:
+• Given I am on the login page, when I enter valid credentials, then I am redirected to my dashboard
+• Given I enter invalid credentials, when I submit, then I see an appropriate error message
+• Given I forget my password, when I click "Forgot Password", then I receive a reset link via email
+
+Definition of Done:
+• Code is written and peer reviewed
+• Unit tests are written and passing
+• Feature is tested in development environment
+• Security review completed
+
+Quality Scores: Independent(8), Negotiable(7), Valuable(9), Estimable(8), Testable(8)
+
+---
+
+US-002 (3 points)
+As a customer, I want to search and browse an FAQ section so that I can quickly find answers to common questions without contacting support.
+
+Acceptance Criteria:
+• Given I am on the FAQ page, when I enter search terms, then I see relevant articles highlighted
+• Given I browse categories, when I click a category, then I see all related articles
+• Given I view an article, when I find it helpful, then I can rate it positively
+
+Definition of Done:
+• Code is written and peer reviewed
+• Unit tests are written and passing
+• Feature is tested in development environment
+• Documentation is updated
+
+Quality Scores: Independent(9), Negotiable(8), Valuable(8), Estimable(7), Testable(9)`;
+          } else {
+            promptText = output.textContent;
+          }
+          
+          if (!promptText || promptText.includes('Choose a template') || promptText.includes('Watch as requirements')) {
+            this.showToast('No content to copy. Please generate content first.', 'error');
+            return false;
+          }
+          
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(promptText).then(() => {
+              this.showCopySuccess(copyBtn);
+              this.showToast('Content copied to clipboard!', 'success');
+            }).catch(() => {
+              this.fallbackCopy(promptText, copyBtn);
+            });
+          } else {
+            this.fallbackCopy(promptText, copyBtn);
+          }
+        } catch (error) {
+          console.error('Error copying:', error);
+          this.showToast('Copy failed. Please manually select and copy the text.', 'error');
+        }
+        
+        return false;
+      },
+      
+      fallbackCopy: function(text, button) {
+        try {
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          textArea.style.top = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          
+          const success = document.execCommand('copy');
+          document.body.removeChild(textArea);
+          
+          if (success) {
+            this.showCopySuccess(button);
+            this.showToast('Content copied to clipboard!', 'success');
+          } else {
+            this.showToast('Copy failed. Please manually select and copy the text.', 'error');
+          }
+        } catch (error) {
+          console.error('Error in fallback copy:', error);
+          this.showToast('Copy failed. Please manually select and copy the text.', 'error');
+        }
+      },
+
+      showCopySuccess: function(button) {
+        try {
+          button.textContent = '✓ Copied!';
+          button.classList.add('copied');
+          setTimeout(() => {
+            button.textContent = '📋 Copy';
+            button.classList.remove('copied');
+          }, 2000);
+        } catch (error) {
+          console.error('Error showing copy success:', error);
+        }
+      },
+
+      showToast: function(message, type = 'info') {
+        try {
+          if (!message) return;
+          
+          this.hideToast();
+          
+          const toast = document.createElement('div');
+          toast.className = `demo-toast ${type}`;
+          toast.textContent = message;
+          toast.id = 'current-demo-toast';
+          
+          document.body.appendChild(toast);
+          
+          setTimeout(() => {
+            if (toast) {
+              toast.classList.add('show');
+            }
+          }, 100);
+          
+          setTimeout(() => {
+            this.hideToast();
+          }, 3000);
+          
+        } catch (error) {
+          console.error('Error showing toast:', error);
+        }
+      },
+
+      hideToast: function() {
+        try {
+          const existingToast = document.getElementById('current-demo-toast');
+          if (existingToast) {
+            existingToast.classList.remove('show');
+            setTimeout(() => {
+              if (existingToast && existingToast.parentNode) {
+                existingToast.parentNode.removeChild(existingToast);
+              }
+            }, 300);
+          }
+        } catch (error) {
+          console.error('Error hiding toast:', error);
+        }
+      }
+    };
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.scroll-fade').forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // Initialize demo when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        // Add input listeners for SmartPromptz real-time updates
+        const smartpromptzFields = ['role', 'goal', 'context', 'tone'];
+        smartpromptzFields.forEach(function(field) {
+          const element = document.getElementById('smartpromptz-' + field);
+          if (element) {
+            element.addEventListener('input', function() {
+              if (this.classList.contains('demo-error')) {
+                this.classList.remove('demo-error');
+                WeejDemos.clearFieldError(this.id);
+              }
+              
+              WeejDemos.updatePrompt('smartpromptz');
+            });
+          }
+        });
+        
+        console.log('Weej Demos initialized successfully');
+      } catch (error) {
+        console.error('Error initializing demos:', error);
+      }
+    });
+
+    // Global error handler
+    window.addEventListener('error', function(e) {
+      console.error('Global error:', e.error || e.message);
+    });
+  </script>
+</body>
+</html>
