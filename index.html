@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weej - Think First Tools for Professionals</title>
+  <meta name="description" content="Professional tools that teach you to think first, then get perfect results. Choose the right tool for your workflow.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      max-width: 1000px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease-out;
+    }
+    
+    .logo svg {
+      width: 400px;
+      height: auto;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+    
+    .hero-headline {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    
+    .hero-subheadline {
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: #cccccc;
+      margin-bottom: 60px;
+      animation: fadeInUp 1s ease-out 0.4s both;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 60px;
+    }
+    
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+    
+    .tool-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(220, 38, 38, 0.3);
+      box-shadow: 0 20px 50px rgba(220, 38, 38, 0.1);
+    }
+    
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tool-card:hover::before {
+      opacity: 1;
+    }
+    
+    .tool-icon {
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+    }
+    
+    .tool-icon svg {
+      width: 80px;
+      height: 80px;
+      filter: drop-shadow(0 4px 15px rgba(220, 38, 38, 0.3));
+    }
+    
+    .tool-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+    
+    .tool-subtitle {
+      font-size: 1rem;
+      color: #dc2626;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .tool-description {
+      font-size: 1.1rem;
+      color: #cccccc;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+    
+    .tool-features {
+      list-style: none;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+    
+    .tool-features li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+      font-size: 0.95rem;
+      color: #e5e5e5;
+    }
+    
+    .tool-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    
+    .tool-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 20px;
+    }
+    
+    .btn-tool {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.3);
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .btn-tool:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(220, 38, 38, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+    
+    /* Company Info */
+    .company-info {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      animation: fadeInUp 1s ease-out 0.8s both;
+    }
+    
+    .company-description {
+      font-size: 1.1rem;
+      color: #cccccc;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 30px;
+    }
+    
+    .contact-info {
+      color: #dc2626;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .contact-info:hover {
+      color: #ef4444;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-headline {
+        font-size: 2.5rem;
+      }
+      
+      .logo svg {
+        width: 300px;
+      }
+      
+      .tools-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .tool-card {
+        padding: 30px 25px;
+      }
+      
+      .tool-title {
+        font-size: 2rem;
+      }
+      
+      .tool-price {
+        font-size: 2rem;
+      }
+      
+      .tool-icon svg {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <div class="logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="logoShadow">
+              <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#logoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <h1 class="hero-headline">Think First Tools</h1>
+      <p class="hero-subheadline">Professional tools that teach you to think before you ask. Stop wasting time with unclear requests and get perfect results every time.</p>
+      
+      <div class="tools-grid">
+        <!-- SmartPromptz Card -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="smartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <!-- Targeting crosshairs with modern twist -->
+              <circle cx="50" cy="50" r="35" fill="none" stroke="url(#smartGrad)" stroke-width="3"/>
+              <circle cx="50" cy="50" r="20" fill="none" stroke="url(#smartGrad)" stroke-width="2"/>
+              <circle cx="50" cy="50" r="6" fill="url(#smartGrad)"/>
+              <!-- Angular brackets like Weej logo -->
+              <path d="M15 35 L25 50 L15 65" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              <path d="M85 35 L75 50 L85 65" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+              <!-- Precision lines -->
+              <line x1="50" y1="5" x2="50" y2="15" stroke="url(#smartGrad)" stroke-width="2"/>
+              <line x1="50" y1="85" x2="50" y2="95" stroke="url(#smartGrad)" stroke-width="2"/>
+              <line x1="5" y1="50" x2="15" y2="50" stroke="url(#smartGrad)" stroke-width="2"/>
+              <line x1="85" y1="50" x2="95" y2="50" stroke="url(#smartGrad)" stroke-width="2"/>
+            </svg>
+          </div>
+          <h2 class="tool-title">SmartPromptz</h2>
+          <div class="tool-subtitle">AI Communication Tool</div>
+          <p class="tool-description">Stop wasting time with bad AI prompts. Learn to think first, then communicate clearly with any AI to get perfect results.</p>
+          
+          <ul class="tool-features">
+            <li>16+ proven prompt templates</li>
+            <li>Works with ChatGPT, Claude, Gemini</li>
+            <li>Think-first methodology</li>
+            <li>100% private and offline</li>
+          </ul>
+          
+          <div class="tool-price">$25</div>
+          
+          <a href="/splanding.html" class="btn-tool">
+            <span>See Demo & Get SmartPromptz</span>
+            <span>→</span>
+          </a>
+        </div>
+        
+        <!-- Complete Agile Toolkit Card -->
+        <div class="tool-card">
+          <div class="tool-icon">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="bundleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <!-- Interlocking gears representing complete system -->
+              <circle cx="35" cy="40" r="18" fill="none" stroke="url(#bundleGrad)" stroke-width="3"/>
+              <circle cx="65" cy="60" r="18" fill="none" stroke="url(#bundleGrad)" stroke-width="3"/>
+              <!-- Gear teeth -->
+              <path d="M35 22 L38 18 L32 18 Z" fill="url(#bundleGrad)"/>
+              <path d="M53 40 L57 37 L57 43 Z" fill="url(#bundleGrad)"/>
+              <path d="M35 58 L32 62 L38 62 Z" fill="url(#bundleGrad)"/>
+              <path d="M17 40 L13 43 L13 37 Z" fill="url(#bundleGrad)"/>
+              
+              <path d="M65 42 L68 38 L62 38 Z" fill="url(#bundleGrad)"/>
+              <path d="M83 60 L87 57 L87 63 Z" fill="url(#bundleGrad)"/>
+              <path d="M65 78 L62 82 L68 82 Z" fill="url(#bundleGrad)"/>
+              <path d="M47 60 L43 63 L43 57 Z" fill="url(#bundleGrad)"/>
+              
+              <!-- Centers -->
+              <circle cx="35" cy="40" r="6" fill="url(#bundleGrad)"/>
+              <circle cx="65" cy="60" r="6" fill="url(#bundleGrad)"/>
+              <!-- Connection between gears -->
+              <path d="M45 48 L55 52" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h2 class="tool-title">Complete Agile Toolkit</h2>
+          <div class="tool-subtitle">SmartPromptz + USB Bundle</div>
+          <p class="tool-description">Everything agile teams need: Perfect scrum ceremonies, sprint artifacts, user story workflows, AND AI communication mastery all in one toolkit.</p>
+          
+          <ul class="tool-features">
+            <li>Sprint planning & backlog refinement</li>
+            <li>Scrum ceremony templates & retrospectives</li>
+            <li>Requirements to user stories workflow</li>
+            <li>AI communication for all agile artifacts</li>
+            <li>Jira & Azure DevOps export</li>
+          </ul>
+          
+          <div class="tool-price">$39</div>
+          
+          <a href="/usblanding.html" class="btn-tool">
+            <span>See Demo & Get Complete Toolkit</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+      
+      <div class="company-info">
+        <p class="company-description">
+          Built by a business analyst who got tired of unclear requirements and wasted time in agile teams. These tools teach the "Think First" methodology that transforms how you communicate and deliver.
+        </p>
+        <a href="mailto:feedback@weej.app" class="contact-info">feedback@weej.app</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Simple analytics tracking for tool selection
+    document.querySelectorAll('.btn-tool').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const toolName = this.href.includes('splanding') ? 'SmartPromptz' : 'Complete Agile Toolkit';
+        
+        // You can replace this with your analytics code
+        console.log(`Tool Selection: ${toolName} - demo_and_purchase_intent`);
+        
+        // Add small delay to ensure tracking
+        e.preventDefault();
+        setTimeout(() => {
+          window.location.href = this.href;
+        }, 100);
+      });
+    });
+
+    console.log('Weej main landing page loaded successfully');
+  </script>
+</body>
+</html>
