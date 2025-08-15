@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weej Professional AI Tools - Setup Guide</title>
+  <meta name="description" content="Setup guide for WEEJ Professional AI Tools - SmartPromptz and USB">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo {
+      margin-bottom: 30px;
+    }
+    
+    .logo svg {
+      width: 300px;
+      height: auto;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+    
+    .hero-headline {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-subheadline {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #cccccc;
+      margin-bottom: 40px;
+    }
+    
+    .version-badge {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    
+    /* Main Content */
+    .main-content {
+      background: white;
+      padding: 60px 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .content-showcase {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    
+    /* Setup Section */
+    .setup-section {
+      margin-bottom: 50px;
+    }
+    
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: #666666;
+      margin-bottom: 30px;
+    }
+    
+    .setup-steps {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      border-left: 5px solid #dc2626;
+    }
+    
+    .setup-steps ol {
+      list-style: none;
+      counter-reset: step-counter;
+    }
+    
+    .setup-steps li {
+      counter-increment: step-counter;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: linear-gradient(135deg, #fafafa, #f5f5f5);
+      border-radius: 12px;
+      border: 2px solid #e5e7eb;
+      transition: all 0.3s ease;
+      position: relative;
+      padding-left: 60px;
+    }
+    
+    .setup-steps li:hover {
+      border-color: #dc2626;
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.1);
+    }
+    
+    .setup-steps li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    
+    .setup-steps li strong {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    
+    .setup-steps li code {
+      background: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 0.9rem;
+      color: #dc2626;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+    
+    .completion-note {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #16a34a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .completion-note strong {
+      color: #166534;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    /* Tools Grid */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+    }
+    
+    .tool-header {
+      height: 120px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+    }
+    
+    .tool-header-logo svg {
+      width: 120px;
+      height: auto;
+    }
+    
+    .tool-header-name {
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 0;
+    }
+    
+    .tool-content {
+      padding: 30px;
+    }
+    
+    .tool-description {
+      color: #666666;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .tool-features {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+    
+    .tool-features li {
+      color: #666666;
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+      font-size: 0.95rem;
+    }
+    
+    .tool-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+    }
+    
+    .tool-location {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 20px;
+    }
+    
+    .tool-location strong {
+      color: #dc2626;
+      font-weight: 600;
+    }
+    
+    /* Requirements Section */
+    .requirements-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      border-left: 5px solid #22c55e;
+      margin-bottom: 40px;
+    }
+    
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .requirement-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-radius: 8px;
+      border: 1px solid #bbf7d0;
+    }
+    
+    .requirement-item::before {
+      content: "✅";
+      font-size: 1.1rem;
+    }
+    
+    .offline-note {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 2px solid #dc2626;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .offline-note strong {
+      color: #dc2626;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    
+    /* Tips Section */
+    .tips-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .tip-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      border-left: 4px solid #dc2626;
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .tip-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+    
+    .tip-list {
+      list-style: none;
+    }
+    
+    .tip-list li {
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+      color: #4b5563;
+      line-height: 1.5;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    .tip-list li::before {
+      content: "💡";
+      position: absolute;
+      left: 0;
+    }
+    
+    .tip-list li strong {
+      color: #1a1a1a;
+      font-weight: 600;
+    }
+    
+    /* Troubleshooting Section */
+    .troubleshooting-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      border-left: 5px solid #f59e0b;
+      margin-bottom: 40px;
+    }
+    
+    .troubleshooting-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+    
+    .trouble-item {
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border: 1px solid #fed7aa;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .trouble-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 12px;
+    }
+    
+    .trouble-list {
+      list-style: none;
+    }
+    
+    .trouble-list li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+      color: #78350f;
+      font-size: 0.95rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    .trouble-list li::before {
+      content: "🔧";
+      position: absolute;
+      left: 0;
+    }
+    
+    .trouble-list li strong {
+      font-weight: 600;
+    }
+    
+    /* Support Section */
+    .support-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      border-left: 5px solid #3b82f6;
+      margin-bottom: 40px;
+    }
+    
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+    
+    .support-item {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .support-item-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 12px;
+    }
+    
+    .support-item ul {
+      list-style: none;
+    }
+    
+    .support-item li {
+      margin-bottom: 8px;
+      padding-left: 20px;
+      position: relative;
+      color: #1e3a8a;
+      font-size: 0.95rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    .support-item li::before {
+      content: "📋";
+      position: absolute;
+      left: 0;
+    }
+    
+    .support-item li strong {
+      font-weight: 600;
+    }
+    
+    .contact-info {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #16a34a;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .contact-email {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .contact-email:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+      color: white;
+      text-decoration: none;
+    }
+    
+    /* Footer */
+    .footer {
+      background: #0f0f0f;
+      color: white;
+      padding: 40px 20px 30px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo svg {
+      width: 180px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .footer-text {
+      font-size: 1rem;
+      color: #999999;
+      margin-bottom: 20px;
+    }
+    
+    .footer-contact {
+      color: #dc2626;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-contact:hover {
+      color: #ef4444;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-headline {
+        font-size: 2rem;
+      }
+      
+      .hero-subheadline {
+        font-size: 1.1rem;
+      }
+      
+      .logo svg {
+        width: 250px;
+      }
+      
+      .tools-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .content-showcase {
+        padding: 25px;
+      }
+      
+      .setup-steps li {
+        padding-left: 50px;
+      }
+      
+      .setup-steps li::before {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+        left: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="logoShadow">
+              <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#logoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#logoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <div class="version-badge">Professional AI Tools - v1.0</div>
+      <h1 class="hero-headline">Setup Guide</h1>
+      <p class="hero-subheadline">Thank you for your purchase! You now own both professional tools designed to transform how you work with AI.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="main-content">
+    <div class="container">
+      <div class="content-showcase">
+        
+        <!-- Getting Started Section -->
+        <div class="setup-section">
+          <h2 class="section-title">Getting Started</h2>
+          <p class="section-subtitle">Quick Setup (30 seconds)</p>
+          
+          <div class="setup-steps">
+            <ol>
+              <li><strong>Extract this folder</strong> anywhere on your computer (Desktop, Documents, etc.)</li>
+              <li><strong>Open SmartPromptz:</strong> Double-click <code>smartpromptz.html</code></li>
+              <li><strong>Open USB:</strong> Double-click <code>usb.html</code></li>
+              <li><strong>Bookmark both</strong> in your browser for instant access</li>
+            </ol>
+            
+            <div class="completion-note">
+              <strong>That's it!</strong> No installation, no accounts, no internet required.
+            </div>
+          </div>
+        </div>
+
+        <!-- What's Included Section -->
+        <div class="setup-section">
+          <h2 class="section-title">What's Included</h2>
+          
+          <div class="tools-grid">
+            <div class="tool-card">
+              <div class="tool-header">
+                <div class="tool-header-logo">
+                  <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <filter id="toolLogoShadow1">
+                        <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+                      </filter>
+                    </defs>
+                    <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">&lt;</text>
+                    <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#toolLogoShadow1)">Weej</text>
+                    <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">/</text>
+                    <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow1)">&gt;</text>
+                  </svg>
+                </div>
+                <h4 class="tool-header-name">SmartPromptz</h4>
+              </div>
+              <div class="tool-content">
+                <p class="tool-description">Professional Prompt Builder</p>
+                <ul class="tool-features">
+                  <li>Build precise AI prompts with professional templates</li>
+                  <li>10+ templates, guided creation, copy-paste ready outputs</li>
+                  <li>Best For: Getting exactly what you want from ChatGPT, Claude, Gemini</li>
+                </ul>
+                <div class="tool-location">
+                  <strong>Location:</strong> <code>smartpromptz.html</code>
+                </div>
+              </div>
+            </div>
+
+            <div class="tool-card">
+              <div class="tool-header">
+                <div class="tool-header-logo">
+                  <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <filter id="toolLogoShadow2">
+                        <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+                      </filter>
+                    </defs>
+                    <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">&lt;</text>
+                    <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#toolLogoShadow2)">Weej</text>
+                    <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">/</text>
+                    <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#toolLogoShadow2)">&gt;</text>
+                  </svg>
+                </div>
+                <h4 class="tool-header-name">USB - User Story Builder</h4>
+              </div>
+              <div class="tool-content">
+                <p class="tool-description">Professional agile story creation tool</p>
+                <ul class="tool-features">
+                  <li>Transform requirements into complete user stories</li>
+                  <li>Smart templates, story points, export to Jira/Azure DevOps</li>
+                  <li>Best For: Agile teams, product managers, business analysts</li>
+                </ul>
+                <div class="tool-location">
+                  <strong>Location:</strong> <code>usb.html</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System Requirements -->
+        <div class="requirements-section">
+          <h2 class="section-title">System Requirements</h2>
+          <p class="section-subtitle">Works on any device with a modern web browser</p>
+          
+          <div class="requirements-grid">
+            <div class="requirement-item">Windows (Chrome, Edge, Firefox)</div>
+            <div class="requirement-item">Mac (Safari, Chrome, Firefox)</div>
+            <div class="requirement-item">Linux (Chrome, Firefox)</div>
+            <div class="requirement-item">Tablets and mobile devices</div>
+          </div>
+          
+          <div class="offline-note">
+            <strong>No internet required after download!</strong>
+          </div>
+        </div>
+
+        <!-- Quick Start Tips -->
+        <div class="setup-section">
+          <h2 class="section-title">Quick Start Tips</h2>
+          
+          <div class="tips-section">
+            <div class="tip-card">
+              <h3 class="tip-title">SmartPromptz Pro Tips</h3>
+              <ul class="tip-list">
+                <li><strong>Start with templates</strong> for instant results</li>
+                <li><strong>Fill in the "Goal" field first</strong> - it's the most important</li>
+                <li><strong>Be specific in context</strong> - the more details, the better results</li>
+                <li><strong>Save frequently used prompts</strong> for future reference</li>
+              </ul>
+            </div>
+
+            <div class="tip-card">
+              <h3 class="tip-title">USB Pro Tips</h3>
+              <ul class="tip-list">
+                <li><strong>Start with good requirements</strong> - garbage in, garbage out</li>
+                <li><strong>Choose your story format</strong> (Classic Agile is most popular)</li>
+                <li><strong>Use story point estimation</strong> as a starting point, refine with your team</li>
+                <li><strong>Export directly to Jira/Azure</strong> for seamless workflow</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="troubleshooting-section">
+          <h2 class="section-title">Troubleshooting</h2>
+          
+          <div class="troubleshooting-grid">
+            <div class="trouble-item">
+              <h3 class="trouble-title">If tools don't open</h3>
+              <ul class="trouble-list">
+                <li><strong>Right-click the .html file</strong> → "Open with" → Choose your browser</li>
+                <li><strong>Make sure JavaScript is enabled</strong> in your browser</li>
+                <li><strong>Try a different browser</strong> (Chrome recommended)</li>
+              </ul>
+            </div>
+
+            <div class="trouble-item">
+              <h3 class="trouble-title">If export doesn't work</h3>
+              <ul class="trouble-list">
+                <li><strong>Check your browser's download settings</strong></li>
+                <li><strong>Allow pop-ups for the tool pages</strong></li>
+                <li><strong>Try right-click → "Save link as..."</strong> on export buttons</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Updates & Support -->
+        <div class="support-section">
+          <h2 class="section-title">Updates & Support</h2>
+          
+          <div class="support-grid">
+            <div class="support-item">
+              <h3 class="support-item-title">Free Updates</h3>
+              <ul>
+                <li><strong>Check your Gumroad library</strong> periodically for updated versions</li>
+                <li><strong>New templates added regularly</strong> based on user feedback</li>
+                <li><strong>Feature improvements</strong> and bug fixes included</li>
+              </ul>
+            </div>
+
+            <div class="support-item">
+              <h3 class="support-item-title">Support</h3>
+              <ul>
+                <li><strong>Response time:</strong> Usually within 24 hours</li>
+                <li><strong>What we help with:</strong> Technical issues, feature questions, workflow advice</li>
+              </ul>
+            </div>
+
+            <div class="support-item">
+              <h3 class="support-item-title">License</h3>
+              <ul>
+                <li><strong>Personal and commercial use</strong> permitted</li>
+                <li><strong>Individual license - one user per purchase</strong></li>
+                <li><strong>Team licensing available - contact feedback@weej.app</strong></li>
+                <li><strong>Cannot resell or redistribute</strong> the tools themselves</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="contact-info">
+            <p><strong>Need Help?</strong> Contact our support team</p>
+            <a href="mailto:feedback@weej.app" class="contact-email">feedback@weej.app</a>
+          </div>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="setup-section">
+          <div class="completion-note">
+            <h2 style="color: #166534; margin-bottom: 15px;">Thank You!</h2>
+            <p style="color: #166534; margin-bottom: 10px;">You're now equipped with professional-grade AI tools that respect your privacy and boost your productivity. No subscriptions, no data collection, just powerful tools that work offline.</p>
+            <p style="color: #166534; font-weight: 600;">Built by developers, for developers, product managers, and business professionals who demand precision from their AI interactions.</p>
+            <p style="color: #166534; margin-top: 15px;"><strong>The Weej Team</strong><br><em>Professional AI Tools That Work Offline</em></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="footerLogoShadow">
+              <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#footerLogoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <p class="footer-text">Professional offline tools that respect your privacy and boost your productivity.</p>
+      
+      <a href="mailto:feedback@weej.app" class="footer-contact">feedback@weej.app</a>
+      
+      <p style="color: #666; font-size: 14px; margin-top: 20px;">© 2025 Weej Tools - Version 1.0 - Licensed for personal and commercial use</p>
+    </div>
+  </footer>
+</body>
+</html>

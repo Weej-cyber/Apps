@@ -1,0 +1,2092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartPromptz - I Asked Claude What It Needed From Me</title>
+  <meta name="description" content="I was frustrated with AI responses until I asked Claude one question that changed everything. Here's what happened and what I built from it.">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* FIXED HEADER - From Original */
+    .header {
+      background: linear-gradient(135deg, #1a1a1a, #333333);
+      padding: 60px 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 6px solid #dc2626;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.4);
+      min-height: 180px;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .header .weej-logo {
+      width: 320px;
+      height: auto;
+      filter: drop-shadow(0 6px 20px rgba(0,0,0,0.6));
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 20px;
+      position: relative;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .hero-headline {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    
+    .hero-subheadline {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #cccccc;
+      margin-bottom: 40px;
+      animation: fadeInUp 1s ease-out 0.4s both;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      color: white;
+      padding: 18px 40px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(220, 38, 38, 0.3);
+      animation: fadeInUp 1s ease-out 0.6s both;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(220, 38, 38, 0.4);
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Story Sections */
+    .story-section {
+      padding: 80px 20px;
+    }
+
+    .story-section.white {
+      background: #ffffff;
+    }
+
+    .story-section.light {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+
+    .story-text {
+      font-size: 1.3rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      color: #374151;
+      text-align: center;
+    }
+
+    .story-text.large {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: #1a1a1a;
+    }
+
+    .breakthrough {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border-left: 6px solid #dc2626;
+      padding: 40px;
+      margin: 50px 0;
+      border-radius: 0 12px 12px 0;
+      text-align: center;
+    }
+
+    .breakthrough-text {
+      font-size: 1.8rem;
+      font-style: italic;
+      color: #dc2626;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* Demo Section - From Original */
+    .demo-section-wrapper {
+      padding: 80px 20px;
+      background: #f8fafc;
+    }
+    
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .demo-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.02);
+      z-index: 1000;
+      pointer-events: none;
+      border-radius: 20px;
+    }
+    
+    .demo-watermark {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 1001;
+      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+    }
+    
+    .demo-section {
+      transition: all 0.6s ease;
+      position: relative;
+    }
+    
+    .demo-content {
+      display: none;
+      visibility: hidden;
+    }
+    
+    .demo-content.demo-started {
+      display: block;
+      visibility: visible;
+    }
+    
+    .demo-section.dimmed {
+      opacity: 0.4;
+      filter: blur(1px);
+      transform: scale(0.98);
+    }
+    
+    .demo-section.active {
+      opacity: 1;
+      filter: blur(0);
+      transform: scale(1.01);
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+      z-index: 10;
+    }
+    
+    .demo-section.completed {
+      opacity: 0.7;
+      filter: blur(0.5px);
+      transform: scale(0.99);
+    }
+    
+    .demo-header {
+      background: linear-gradient(135deg, #1a1a1a, #333333);
+      padding: 25px 40px;
+      text-align: center;
+      border-bottom: 3px solid #dc2626;
+      position: relative;
+    }
+    
+    .demo-header h2 {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .demo-header p {
+      color: #cccccc;
+      font-size: 1.1rem;
+    }
+    
+    .demo-status-bar {
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white;
+      padding: 12px 30px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .demo-status-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 2s ease;
+    }
+    
+    .demo-status-bar.shimmer::before {
+      left: 100%;
+    }
+    
+    .demo-content {
+      padding: 40px;
+      position: relative;
+    }
+    
+    .scenario-overlay {
+      position: fixed;
+      top: 120px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 1002;
+      transform: translateX(-10px);
+      opacity: 0;
+      transition: all 0.5s ease;
+      max-width: 300px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .scenario-overlay.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    
+    .scenario-title {
+      font-size: 16px;
+      margin-bottom: 5px;
+      color: #fbbf24;
+    }
+    
+    .demo-cursor {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>') no-repeat;
+      z-index: 1003;
+      pointer-events: none;
+      transition: all 0.8s ease;
+      transform: translate(-2px, -2px);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: #2563eb;
+      animation: blink 1s infinite;
+      margin-left: 1px;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .click-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.4);
+      transform: scale(0);
+      animation: ripple 0.8s ease-out;
+      pointer-events: none;
+      z-index: 1001;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(6);
+        opacity: 0;
+      }
+    }
+    
+    .demo-highlight {
+      position: relative;
+      z-index: 15;
+    }
+    
+    .demo-highlight::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+      border-radius: 16px;
+      border: 2px solid rgba(59, 130, 246, 0.3);
+      animation: pulse-glow 2s ease-in-out infinite;
+      z-index: -1;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { 
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        transform: scale(1);
+      }
+      50% { 
+        box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        transform: scale(1.02);
+      }
+    }
+    
+    .mode-selector {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 5px solid #dc2626;
+    }
+    
+    .mode-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+    
+    .radio-group {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+    
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 20px;
+      background: white;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      min-height: 44px;
+    }
+    
+    .radio-option:hover,
+    .radio-option.active {
+      border-color: #dc2626;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+    }
+    
+    .radio-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #dc2626;
+    }
+    
+    .radio-option label {
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+    }
+    
+    .template-categories {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 5px solid #dc2626;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    .template-categories.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .category-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+    
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 25px;
+    }
+    
+    .category-tab {
+      padding: 14px 28px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #64748b;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      position: relative;
+    }
+    
+    .category-tab.active {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .category-tab:hover:not(.active) {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+    
+    .template-selection {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+    
+    .template-option {
+      padding: 25px;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      width: 100%;
+      max-width: 350px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      position: relative;
+    }
+    
+    .template-option:hover,
+    .template-option.selected {
+      border-color: #dc2626;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+    }
+    
+    .template-name {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    
+    .template-desc {
+      font-size: 0.85rem;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+    
+    .form-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border-left: 4px solid #f59e0b;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      transition: all 0.6s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .form-status.good {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      border-left-color: #10b981;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+    }
+    
+    .form-status.excellent {
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-left-color: #3b82f6;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+    }
+    
+    .status-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    
+    .status-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #92400e;
+      line-height: 1.4;
+    }
+    
+    .form-status.good .status-text {
+      color: #065f46;
+    }
+    
+    .form-status.excellent .status-text {
+      color: #1e40af;
+    }
+    
+    .form-section {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border: 1px solid #e5e7eb;
+    }
+    
+    .form-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-bottom: 30px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .template-only-fields .form-group,
+    .custom-only-fields .form-group {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .template-mode .custom-only-fields {
+      display: none;
+    }
+    
+    .form-label {
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+      font-size: 16px;
+      display: block;
+      width: 100%;
+    }
+    
+    .required::after {
+      content: " *";
+      color: #dc2626;
+    }
+    
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      max-width: 800px;
+      padding: 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: #fafafa;
+      font-family: inherit;
+      min-height: 60px;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: pre-wrap;
+      resize: vertical;
+    }
+    
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+    }
+    
+    .form-input:focus, .form-textarea:focus, .form-select:focus,
+    .form-input.demo-focus, .form-textarea.demo-focus, .form-select.demo-focus {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+      border-color: #2563eb;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .form-hint {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 6px;
+      font-style: italic;
+      line-height: 1.4;
+      max-width: 800px;
+      word-wrap: break-word;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 30px 0;
+    }
+    
+    .demo-btn {
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+      min-height: 44px;
+      min-width: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    
+    .demo-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    .demo-btn.primary {
+      background: linear-gradient(135deg, #4CAF50, #66BB6A);
+      color: white;
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+    }
+    
+    .demo-btn.secondary {
+      background: linear-gradient(135deg, #2196F3, #42A5F5);
+      color: white;
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+    }
+    
+    .demo-btn.clear {
+      background: linear-gradient(135deg, #6B7280, #9CA3AF);
+      color: white;
+      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3);
+    }
+    
+    .demo-btn:hover:not(:disabled),
+    .demo-btn.demo-hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    
+    .demo-btn.loading {
+      pointer-events: none;
+    }
+    
+    .demo-btn.loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      margin: auto;
+      border: 2px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    .output-section {
+      background: white;
+      border-radius: 20px;
+      margin-top: 30px;
+      min-height: 200px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .output-header {
+      background: linear-gradient(135deg, #1a1a1a, #333333);
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 3px solid #dc2626;
+    }
+    
+    .output-header .weej-logo {
+      width: 97px;
+      height: auto;
+    }
+    
+    .output-header .header-text {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    
+    .output-content {
+      padding: 30px;
+      font-family: 'Segoe UI', -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1e293b;
+      min-height: 120px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    
+    .output-placeholder {
+      color: #9ca3af;
+      font-style: italic;
+    }
+    
+    .usage-instructions {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border-top: 1px solid #e5e7eb;
+      padding: 25px 30px;
+      border-radius: 0 0 20px 20px;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    .usage-instructions.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .instruction-header {
+      font-size: 18px;
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .instruction-text {
+      color: #374151;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    .ai-platforms {
+      display: block;
+      font-size: 14px;
+      color: #6b7280;
+      font-style: italic;
+      margin-top: 8px;
+    }
+    
+    .instruction-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .copy-btn {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 44px;
+    }
+    
+    .copy-btn:hover,
+    .copy-btn.demo-hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
+    }
+    
+    .copy-success {
+      color: #059669;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Product Section */
+    .product {
+      background: linear-gradient(135deg, #1a1a1a, #2d2d2d);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .product-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .product-subtitle {
+      font-size: 1.3rem;
+      color: #cccccc;
+      margin-bottom: 40px;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 450px;
+      margin: 40px auto;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .price {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 8px;
+    }
+
+    .price-subtitle {
+      font-size: 1.1rem;
+      color: #cccccc;
+      margin-bottom: 30px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+      font-size: 1rem;
+    }
+
+    .pricing-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #dc2626;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 60px 20px;
+      background: white;
+    }
+
+    .faq-title {
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+      color: #1a1a1a;
+    }
+
+    .faq-item {
+      margin-bottom: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: white;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 16px;
+    }
+
+    .faq-question {
+      padding: 20px;
+      font-weight: 600;
+      color: #1a1a1a;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: #f9fafb;
+    }
+
+    .faq-toggle {
+      color: #dc2626;
+      font-size: 0.9rem;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 20px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 0 20px 20px 20px;
+    }
+
+    /* Footer - From Original */
+    .footer {
+      background: #0f0f0f;
+      color: white;
+      padding: 40px 20px 30px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .footer-logo svg {
+      width: 180px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    
+    .footer-text {
+      font-size: 1rem;
+      color: #999999;
+      margin-bottom: 20px;
+    }
+    
+    .footer-contact {
+      color: #dc2626;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-contact:hover {
+      color: #ef4444;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 40px 20px;
+        min-height: 140px;
+      }
+      
+      .header .weej-logo {
+        width: 260px;
+      }
+      
+      .hero-headline {
+        font-size: 2.2rem;
+      }
+      
+      .story-text {
+        font-size: 1.2rem;
+      }
+      
+      .story-text.large {
+        font-size: 1.3rem;
+      }
+      
+      .breakthrough-text {
+        font-size: 1.5rem;
+      }
+
+      .demo-content {
+        padding: 20px;
+      }
+      
+      .form-section {
+        padding: 30px 20px;
+      }
+      
+      .scenario-overlay {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+        top: 100px;
+      }
+      
+      .demo-watermark {
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        padding: 6px 12px;
+      }
+      
+      .category-tabs {
+        gap: 8px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      
+      .category-tab {
+        padding: 12px 20px;
+        font-size: 0.85rem;
+        min-height: 44px;
+      }
+      
+      .template-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      
+      .template-selection {
+        padding: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      
+      .template-option {
+        max-width: none;
+        width: 100%;
+      }
+
+      .product-title {
+        font-size: 2rem;
+      }
+
+      .price {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER - From Original -->
+  <div class="header">
+    <div class="logo-section">
+      <svg class="weej-logo" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Weej logo">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+          </linearGradient>
+          <filter id="logoShadow">
+            <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.4"/>
+          </filter>
+        </defs>
+        <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#logoGrad)" filter="url(#logoShadow)">&lt;</text>
+        <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#logoShadow)">Weej</text>
+        <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#logoGrad)" filter="url(#logoShadow)">/</text>
+        <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#logoGrad)" filter="url(#logoShadow)">&gt;</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-headline">SmartPromptz</h1>
+      <p class="hero-subheadline">Stop Getting Generic AI Responses - Think First, Ask Right</p>
+      <a href="https://shoppingwhiz7.gumroad.com/l/jqabf" class="btn-primary">
+        <span>Get SmartPromptz - $25</span>
+        <span>→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Story Opening -->
+  <section class="story-section white">
+    <div class="container">
+      <p class="story-text large">
+        I was getting frustrated with AI responses. They were always close to what I wanted, but never quite right.
+      </p>
+
+      <p class="story-text">
+        So I asked Claude directly:
+      </p>
+
+      <div class="breakthrough">
+        <p class="breakthrough-text">"What do you need from me to give me what I actually need?"</p>
+      </div>
+
+      <p class="story-text">
+        That conversation taught me the Think First method: know your goal, provide context, define your style... then ask. Simple, but most of us skip this step entirely.
+      </p>
+
+      <p class="story-text">
+        Then I thought... "Just give me a checklist to run through before we talk."
+      </p>
+
+      <p class="story-text large">
+        That checklist became SmartPromptz.
+      </p>
+    </div>
+  </section>
+
+  <!-- Demo Section - From Original, Positioned Here -->
+  <section class="demo-section-wrapper">
+    <div class="demo-container">
+      <div class="demo-overlay"></div>
+      <div class="demo-cursor" id="demoCursor"></div>
+      <div class="scenario-overlay" id="scenarioOverlay">
+        <div class="scenario-title">Real Example</div>
+        <div class="scenario-description">Creating Instagram content for a fitness brand...</div>
+      </div>
+      
+      <div class="demo-header demo-section" id="headerSection">
+        <h2>Here's the difference it made</h2>
+        <p>Watch how thinking through the request first changes everything</p>
+        <button class="btn-primary" id="startDemoBtn" style="margin-top: 20px;">
+          <span>Show Me</span>
+        </button>
+      </div>
+      
+      <div class="demo-status-bar" id="statusBar">
+        Ready to see the difference? Click the button above!
+      </div>
+      
+      <div class="demo-content">
+        <div class="mode-selector demo-section" id="modeSection">
+          <div class="mode-title">How would you like to start?</div>
+          <div class="radio-group">
+            <div class="radio-option" data-mode="custom" tabindex="0">
+              <input type="radio" name="mode" value="custom">
+              <label>Start from scratch</label>
+            </div>
+            <div class="radio-option" data-mode="template" tabindex="0">
+              <input type="radio" name="mode" value="template">
+              <label>Use a proven template</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="template-categories demo-section" id="templateSection">
+          <div class="category-title">Choose Your Template Category</div>
+          <div class="category-tabs">
+            <button class="category-tab" data-category="social">Social Media</button>
+            <button class="category-tab" data-category="email">Email</button>
+            <button class="category-tab" data-category="study">Study Help</button>
+            <button class="category-tab" data-category="creative">Creative</button>
+            <button class="category-tab" data-category="organize">Life Organizer</button>
+            <button class="category-tab" data-category="research">Research</button>
+            <button class="category-tab" data-category="career">Career</button>
+            <button class="category-tab" data-category="video">Video Script</button>
+          </div>
+          
+          <div class="template-selection">
+            <div class="template-grid" id="templateGrid">
+              <div class="template-option" data-template="instagram">
+                <div class="template-name">Instagram Post</div>
+                <div class="template-desc">Create engaging Instagram captions that drive likes, comments, and engagement</div>
+              </div>
+              <div class="template-option" data-template="linkedin">
+                <div class="template-name">LinkedIn Update</div>
+                <div class="template-desc">Professional posts for networking and thought leadership that build your personal brand</div>
+              </div>
+              <div class="template-option" data-template="twitter">
+                <div class="template-name">Twitter Thread</div>
+                <div class="template-desc">Multi-tweet stories that drive engagement and shares on Twitter</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-status demo-section" id="statusSection">
+          <span class="status-icon">⚠️</span>
+          <span class="status-text">Ready to think through your request • Add details to build a strong prompt</span>
+        </div>
+        
+        <div class="form-section template-mode demo-section" id="formSection">
+          <div class="form-grid">
+            <div class="form-group full-width template-only-fields">
+              <label class="form-label required" for="goal">Goal</label>
+              <textarea class="form-input typing-field" id="goal" placeholder="What do you want the AI to accomplish?" maxlength="300" required></textarea>
+              <div class="form-hint">Be specific about your desired outcome</div>
+            </div>
+            
+            <div class="form-group full-width template-only-fields">
+              <label class="form-label" for="context">Context</label>
+              <textarea class="form-textarea typing-field" id="context" rows="4" placeholder="Provide background information or important details..." maxlength="1000"></textarea>
+              <div class="form-hint">Who, what, when, why - add relevant background</div>
+            </div>
+            
+            <div class="form-group template-only-fields">
+              <label class="form-label" for="tone">Tone/Style</label>
+              <textarea class="form-input typing-field" id="tone" placeholder="e.g., Professional, casual, witty" maxlength="100"></textarea>
+              <div class="form-hint">Define the voice and personality</div>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="demo-btn primary" id="generateBtn">
+              <span>Generate Prompt</span>
+            </button>
+            <button class="demo-btn secondary" id="saveBtn">
+              <span>Save to File</span>
+            </button>
+            <button class="demo-btn clear" id="clearBtn">
+              <span>Clear All</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="output-section demo-section" id="outputSection">
+          <div class="output-header">
+            <svg class="weej-logo" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Weej logo">
+              <defs>
+                <linearGradient id="outputLogoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+                  <stop offset="50%" style="stop-color:#ef4444;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#f87171;stop-opacity:1" />
+                </linearGradient>
+                <filter id="outputLogoShadow">
+                  <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.4"/>
+                </filter>
+              </defs>
+              <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#outputLogoGrad)" filter="url(#outputLogoShadow)">&lt;</text>
+              <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#outputLogoShadow)">Weej</text>
+              <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#outputLogoGrad)" filter="url(#outputLogoShadow)">/</text>
+              <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="url(#outputLogoGrad)" filter="url(#outputLogoShadow)">&gt;</text>
+            </svg>
+            <div class="header-text">Generated Prompt</div>
+          </div>
+          
+          <div class="output-content" id="output">
+            <div class="output-placeholder">Your carefully crafted prompt will appear here...</div>
+          </div>
+          
+          <div class="usage-instructions" id="usageInstructions">
+            <div class="instruction-header">Ready to Use!</div>
+            <div class="instruction-text">
+              <strong>Your well-planned prompt is complete.</strong> Copy the text above and paste it into ChatGPT, Claude, or any AI assistant to get precisely what you're looking for.
+              <span class="ai-platforms">✨ Works great with: ChatGPT • Claude • Gemini • Perplexity • Copilot • or any other AI platform</span>
+            </div>
+            <div class="instruction-actions">
+              <button class="copy-btn" id="copyBtn">Copy to Clipboard</button>
+              <span class="copy-success" id="copySuccess" style="display: none;">Copied!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Section -->
+  <section class="product" id="buy">
+    <div class="container">
+      <h2 class="product-title">SmartPromptz</h2>
+      <p class="product-subtitle">The think first method for AI communication</p>
+      
+      <div class="pricing-card">
+        <div class="price">$25</div>
+        <p class="price-subtitle">One-time payment • Yours forever</p>
+        
+        <ul class="pricing-features">
+          <li>Think First methodology & templates</li>
+          <li>Works with any AI platform</li>
+          <li>100% private and offline</li>
+          <li>Lifetime updates included</li>
+          <li>30-day money-back guarantee</li>
+        </ul>
+        
+        <a href="https://shoppingwhiz7.gumroad.com/l/jqabf" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 20px;">
+          <span>Get SmartPromptz - $25</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Simple FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="faq-title">Questions</h2>
+      
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Does this work with ChatGPT, Claude, and other AIs?
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">
+          <p>Yes. This is about how you communicate with AI, not which AI you use. The templates help you organize your thoughts, then you copy the result to any AI platform.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Is this just templates I could make myself?
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">
+          <p>You could, but you'd need to know what questions to ask yourself first. These templates are based on that conversation I had with Claude - what AI actually needs to give you great results.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          Do I need internet to use this?
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. SmartPromptz works completely offline. Plan your requests privately, then copy them to whatever AI you're using.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFAQ(this)">
+          What if it doesn't help?
+          <span class="faq-toggle">▼</span>
+        </button>
+        <div class="faq-answer">
+          <p>30-day money-back guarantee. If communicating more clearly with AI doesn't improve your results, I'll refund your money.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer - From Original -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <svg viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="footerLogoShadow">
+              <feDropShadow dx="1" dy="2" stdDeviation="1" flood-color="#000000" flood-opacity="0.3"/>
+            </filter>
+          </defs>
+          <text x="40" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&lt;</text>
+          <text x="160" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" text-anchor="middle" fill="#ffffff" filter="url(#footerLogoShadow)">Weej</text>
+          <text x="240" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">/</text>
+          <text x="260" y="55" font-family="Impact, Arial Black, sans-serif" font-size="60" font-weight="900" fill="#dc2626" filter="url(#footerLogoShadow)">&gt;</text>
+        </svg>
+      </div>
+      
+      <p class="footer-text">The Think First methodology for better AI communication</p>
+      
+      <a href="mailto:feedback@weej.app" class="footer-contact">feedback@weej.app</a>
+    </div>
+  </footer>
+
+  <!-- Demo JavaScript - From Original -->
+  <script>
+    // Demo scenario
+    const demoScenario = {
+      title: "Real Example",
+      description: "Creating Instagram content for a fitness brand...",
+      mode: "template",
+      category: "social", 
+      template: "instagram",
+      fields: {
+        goal: "Create an engaging Instagram post for our new workout app launch",
+        context: "We're a fitness startup launching a home workout app. Target audience is busy professionals aged 25-40 who want to stay fit but have limited time. The app offers 15-minute HIIT workouts.",
+        tone: "Motivational, energetic, and relatable"
+      },
+      output: `You are a social media expert who creates engaging Instagram content that gets likes, shares, and meaningful engagement
+
+Your task: Create an engaging Instagram post for our new workout app launch
+
+Context: We're a fitness startup launching a home workout app. Target audience is busy professionals aged 25-40 who want to stay fit but have limited time. The app offers 15-minute HIIT workouts.
+
+Tone and style: Motivational, energetic, and relatable
+
+Important constraints: Keep under 150 words, include hashtag suggestions, focus on visual storytelling
+
+Examples of desired output:
+Caption: [Engaging hook with emoji]
+[Value-driven content]
+[Call to action]
+
+Hashtags: #example #relevant #tags
+
+Please provide your response following all the above guidelines and requirements.`
+    };
+    
+    let isAnimating = false;
+    let animationTimeouts = [];
+    
+    function clearAllTimeouts() {
+      animationTimeouts.forEach(timeout => clearTimeout(timeout));
+      animationTimeouts = [];
+    }
+    
+    function createDelay(ms) {
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          const index = animationTimeouts.indexOf(timeout);
+          if (index > -1) animationTimeouts.splice(index, 1);
+          resolve();
+        }, ms);
+        animationTimeouts.push(timeout);
+      });
+    }
+    
+    function setSpotlight(activeSection) {
+      const sections = document.querySelectorAll('.demo-section');
+      
+      sections.forEach(section => {
+        section.classList.remove('active', 'completed', 'dimmed');
+        
+        if (section === activeSection) {
+          section.classList.add('active');
+        } else if (section.compareDocumentPosition(activeSection) & Node.DOCUMENT_POSITION_FOLLOWING) {
+          section.classList.add('completed');
+        } else {
+          section.classList.add('dimmed');
+        }
+      });
+    }
+    
+    function highlightElement(element) {
+      document.querySelectorAll('.demo-highlight').forEach(el => {
+        el.classList.remove('demo-highlight');
+      });
+      
+      if (element) {
+        element.classList.add('demo-highlight');
+        const timeout = setTimeout(() => {
+          if (element) element.classList.remove('demo-highlight');
+        }, 3000);
+        animationTimeouts.push(timeout);
+      }
+    }
+    
+    async function typeText(element, text, speed = 12) {
+      if (!element || !text || !isAnimating) return;
+      
+      try {
+        if (!element.tagName) {
+          console.error('Invalid element passed to typeText');
+          return;
+        }
+        
+        element.value = '';
+        element.classList.add('demo-focus');
+        
+        for (let i = 0; i < text.length; i++) {
+          if (!isAnimating) break;
+          
+          element.value = text.substring(0, i + 1);
+          await createDelay(speed);
+        }
+        
+        if (isAnimating) {
+          element.value = text;
+        }
+        element.classList.remove('demo-focus');
+      } catch (error) {
+        console.error('Typing effect error:', error);
+        if (element && element.classList) {
+          element.value = text || '';
+          element.classList.remove('demo-focus');
+        }
+      }
+    }
+    
+    function createClickEffect(element) {
+      if (!element) return;
+      
+      const rect = element.getBoundingClientRect();
+      const ripple = document.createElement('div');
+      ripple.className = 'click-ripple';
+      ripple.style.width = ripple.style.height = '30px';
+      ripple.style.left = (rect.left + rect.width / 2 - 15) + 'px';
+      ripple.style.top = (rect.top + rect.height / 2 - 15) + 'px';
+      
+      document.body.appendChild(ripple);
+      const timeout = setTimeout(() => {
+        if (document.body.contains(ripple)) {
+          document.body.removeChild(ripple);
+        }
+      }, 800);
+      animationTimeouts.push(timeout);
+    }
+    
+    async function moveCursor(element, duration = 400) {
+      if (!element || !isAnimating) return;
+      
+      try {
+        const cursor = document.getElementById('demoCursor');
+        const container = document.querySelector('.demo-container');
+        
+        if (!cursor || !container) {
+          console.warn('Demo cursor or container not found');
+          return;
+        }
+        
+        const rect = element.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        
+        if (!rect || !containerRect) {
+          console.warn('Could not get element boundaries');
+          return;
+        }
+        
+        const targetX = rect.left + rect.width / 2 - containerRect.left;
+        const targetY = rect.top + rect.height / 2 - containerRect.top;
+        
+        cursor.style.transition = `all ${duration}ms ease-out`;
+        cursor.style.left = targetX + 'px';
+        cursor.style.top = targetY + 'px';
+        
+        await createDelay(duration);
+      } catch (error) {
+        console.error('Move cursor error:', error);
+      }
+    }
+    
+    function updateStatusBar(message, shimmer = false) {
+      try {
+        const statusBar = document.getElementById('statusBar');
+        if (!statusBar) return;
+        
+        statusBar.textContent = message;
+        
+        if (shimmer) {
+          statusBar.classList.add('shimmer');
+          const timeout = setTimeout(() => {
+            if (statusBar) statusBar.classList.remove('shimmer');
+          }, 2000);
+          animationTimeouts.push(timeout);
+        }
+      } catch (error) {
+        console.error('Update status bar error:', error);
+      }
+    }
+    
+    function updateScenarioOverlay(scenario) {
+      const overlay = document.getElementById('scenarioOverlay');
+      if (!overlay) return;
+      
+      const titleEl = overlay.querySelector('.scenario-title');
+      const descEl = overlay.querySelector('.scenario-description');
+      
+      if (titleEl) titleEl.textContent = scenario.title;
+      if (descEl) descEl.textContent = scenario.description;
+      
+      overlay.classList.remove('show');
+      const timeout = setTimeout(() => overlay.classList.add('show'), 100);
+      animationTimeouts.push(timeout);
+    }
+    
+    function updateFormStatus(level = 'basic') {
+      const formStatus = document.getElementById('statusSection');
+      if (!formStatus) return;
+      
+      if (level === 'good') {
+        formStatus.className = 'form-status good demo-section';
+        formStatus.innerHTML = '<span class="status-icon">✅</span><span class="status-text">Good thinking so far • Consider adding examples or constraints</span>';
+      } else if (level === 'excellent') {
+        formStatus.className = 'form-status excellent demo-section';
+        formStatus.innerHTML = '<span class="status-icon">🌟</span><span class="status-text">Excellent planning • Ready for a great result!</span>';
+      } else {
+        formStatus.className = 'form-status demo-section';
+        formStatus.innerHTML = '<span class="status-icon">⚠️</span><span class="status-text">Ready to think through your request • Add details to build a strong prompt</span>';
+      }
+    }
+    
+    async function runSingleDemo() {
+      if (!isAnimating) return;
+      
+      try {
+        const scenario = demoScenario;
+        
+        updateScenarioOverlay(scenario);
+        updateStatusBar('Demo starting...', true);
+        
+        await createDelay(600);
+        if (!isAnimating) return;
+        
+        setSpotlight(document.getElementById('modeSection'));
+        await createDelay(500);
+        if (!isAnimating) return;
+        
+        const templateOption = document.querySelector('[data-mode="template"]');
+        if (templateOption) {
+          highlightElement(templateOption);
+          await moveCursor(templateOption, 400);
+          if (!isAnimating) return;
+          
+          createClickEffect(templateOption);
+          templateOption.classList.add('active');
+          const customOption = document.querySelector('[data-mode="custom"]');
+          if (customOption) customOption.classList.remove('active');
+          
+          const templateCategories = document.getElementById('templateSection');
+          if (templateCategories) templateCategories.classList.add('show');
+          
+          await createDelay(600);
+          if (!isAnimating) return;
+          
+          setSpotlight(templateCategories);
+          await createDelay(400);
+          if (!isAnimating) return;
+          
+          const categoryTab = document.querySelector(`[data-category="${scenario.category}"]`);
+          if (categoryTab) {
+            highlightElement(categoryTab);
+            await moveCursor(categoryTab, 400);
+            if (!isAnimating) return;
+            
+            createClickEffect(categoryTab);
+            
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            categoryTab.classList.add('active');
+            
+            await createDelay(500);
+            if (!isAnimating) return;
+            
+            const templateOption2 = document.querySelector(`[data-template="${scenario.template}"]`);
+            if (templateOption2) {
+              highlightElement(templateOption2);
+              await moveCursor(templateOption2, 400);
+              if (!isAnimating) return;
+              
+              createClickEffect(templateOption2);
+              templateOption2.classList.add('selected');
+              
+              await createDelay(600);
+              if (!isAnimating) return;
+            }
+          }
+        }
+        
+        setSpotlight(document.getElementById('formSection'));
+        updateStatusBar('Thinking through the request...', true);
+        
+        let fieldIndex = 0;
+        for (const [fieldId, value] of Object.entries(scenario.fields)) {
+          if (!isAnimating) return;
+          
+          const element = document.getElementById(fieldId);
+          if (element) {
+            highlightElement(element.parentElement);
+            await moveCursor(element, 400);
+            if (!isAnimating) return;
+            
+            await createDelay(300);
+            if (!isAnimating) return;
+            
+            await typeText(element, value, 25);
+            if (!isAnimating) return;
+            
+            await createDelay(400);
+            if (!isAnimating) return;
+            
+            fieldIndex++;
+            if (fieldIndex === 1) {
+              updateFormStatus('good');
+              setSpotlight(document.getElementById('statusSection'));
+              await createDelay(500);
+              if (!isAnimating) return;
+              setSpotlight(document.getElementById('formSection'));
+            } else if (fieldIndex === 2) {
+              updateFormStatus('excellent');
+              setSpotlight(document.getElementById('statusSection'));
+              await createDelay(500);
+              if (!isAnimating) return;
+              setSpotlight(document.getElementById('formSection'));
+            }
+          }
+        }
+        
+        await createDelay(500);
+        if (!isAnimating) return;
+        
+        updateStatusBar('Building your well-planned prompt...', true);
+        const generateBtn = document.getElementById('generateBtn');
+        if (generateBtn) {
+          highlightElement(generateBtn);
+          await moveCursor(generateBtn, 400);
+          if (!isAnimating) return;
+          
+          createClickEffect(generateBtn);
+          generateBtn.classList.add('demo-hover');
+          
+          generateBtn.classList.add('loading');
+          const generateBtnSpan = generateBtn.querySelector('span');
+          if (generateBtnSpan) generateBtnSpan.style.opacity = '0';
+          
+          await createDelay(500);
+          if (!isAnimating) return;
+          
+          setSpotlight(document.getElementById('outputSection'));
+          const output = document.getElementById('output');
+          if (output) {
+            output.innerHTML = '';
+            await typeText(output, scenario.output, 15);
+            if (!isAnimating) return;
+            
+            const usageInstructions = document.getElementById('usageInstructions');
+            if (usageInstructions) usageInstructions.classList.add('show');
+            
+            generateBtn.classList.remove('loading', 'demo-hover');
+            if (generateBtnSpan) generateBtnSpan.style.opacity = '1';
+            
+            await createDelay(800);
+            if (!isAnimating) return;
+            
+            const copyBtn = document.getElementById('copyBtn');
+            if (copyBtn) {
+              highlightElement(copyBtn);
+              await moveCursor(copyBtn, 400);
+              if (!isAnimating) return;
+              
+              createClickEffect(copyBtn);
+              copyBtn.classList.add('demo-hover');
+              
+              const copySuccess = document.getElementById('copySuccess');
+              if (copySuccess) copySuccess.style.display = 'inline';
+              
+              await createDelay(800);
+              if (!isAnimating) return;
+              
+              copyBtn.classList.remove('demo-hover');
+              if (copySuccess) copySuccess.style.display = 'none';
+            }
+          }
+        }
+        
+        updateStatusBar('Demo complete! Click "Show Me" to play again.', false);
+        
+        setTimeout(() => {
+          isAnimating = false;
+          const demoContent = document.querySelector('.demo-content');
+          if (demoContent) demoContent.classList.remove('demo-started');
+          
+          const scenarioOverlay = document.getElementById('scenarioOverlay');
+          if (scenarioOverlay) scenarioOverlay.classList.remove('show');
+        }, 1000);
+        
+      } catch (error) {
+        console.error('Demo error:', error);
+        updateStatusBar('Demo encountered an error. Please try again.', false);
+        isAnimating = false;
+        
+        const demoContent = document.querySelector('.demo-content');
+        if (demoContent) demoContent.classList.remove('demo-started');
+      }
+    }
+    
+    function resetDemo() {
+      try {
+        document.querySelectorAll('.form-input, .form-textarea').forEach(field => {
+          field.value = '';
+          field.classList.remove('demo-focus');
+        });
+        
+        document.querySelectorAll('.radio-option').forEach(option => option.classList.remove('active'));
+        const customOption = document.querySelector('[data-mode="custom"]');
+        if (customOption) customOption.classList.add('active');
+        document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.template-option').forEach(option => option.classList.remove('selected'));
+        
+        const templateSection = document.getElementById('templateSection');
+        if (templateSection) templateSection.classList.remove('show');
+        
+        const output = document.getElementById('output');
+        if (output) output.innerHTML = '<div class="output-placeholder">Your carefully crafted prompt will appear here...</div>';
+        const usageInstructions = document.getElementById('usageInstructions');
+        if (usageInstructions) usageInstructions.classList.remove('show');
+        
+        updateFormStatus('basic');
+        
+        document.querySelectorAll('.demo-btn').forEach(btn => {
+          btn.classList.remove('loading', 'demo-hover');
+          const span = btn.querySelector('span');
+          if (span) span.style.opacity = '1';
+        });
+        
+        document.querySelectorAll('.demo-highlight').forEach(el => {
+          el.classList.remove('demo-highlight');
+        });
+        
+        document.querySelectorAll('.demo-section').forEach(section => {
+          section.classList.remove('active', 'completed', 'dimmed');
+        });
+        
+        const scenarioOverlay = document.getElementById('scenarioOverlay');
+        if (scenarioOverlay) scenarioOverlay.classList.remove('show');
+        
+      } catch (error) {
+        console.error('Reset demo error:', error);
+      }
+    }
+    
+    function initializeDemo() {
+      try {
+        const startBtn = document.getElementById('startDemoBtn');
+        
+        if (!startBtn) {
+          console.warn('Demo start button not found - demo functionality disabled');
+          return;
+        }
+
+        // Verify all critical demo elements exist
+        const requiredElements = [
+          'demoCursor', 'scenarioOverlay', 'statusBar', 'modeSection',
+          'templateSection', 'formSection', 'outputSection'
+        ];
+
+        const missingElements = requiredElements.filter(id => !document.getElementById(id));
+        if (missingElements.length > 0) {
+          console.warn('Missing demo elements:', missingElements, '- demo functionality may be limited');
+        }
+        
+        startBtn.addEventListener('click', function() {
+          try {
+            clearAllTimeouts();
+            isAnimating = false;
+            resetDemo();
+            
+            setTimeout(() => {
+              if (isAnimating) return;
+              
+              isAnimating = true;
+              
+              const demoContent = document.querySelector('.demo-content');
+              if (demoContent) {
+                demoContent.classList.add('demo-started');
+              } else {
+                console.error('Demo content container not found');
+                isAnimating = false;
+                return;
+              }
+              
+              updateStatusBar('Demo starting...', true);
+              
+              const timeout = setTimeout(() => {
+                runSingleDemo();
+              }, 500);
+              animationTimeouts.push(timeout);
+            }, 100);
+            
+          } catch (error) {
+            console.error('Start demo error:', error);
+            updateStatusBar('Error starting demo. Please try again.', false);
+            isAnimating = false;
+          }
+        });
+        
+      } catch (error) {
+        console.error('Initialize demo error:', error);
+      }
+    }
+
+    // FAQ Toggle
+    function toggleFAQ(button) {
+      try {
+        if (!button || !button.parentElement) {
+          console.error('Invalid FAQ button element');
+          return;
+        }
+        
+        const faqItem = button.parentElement;
+        const isActive = faqItem.classList.contains('active');
+        
+        // Close other FAQ items
+        document.querySelectorAll('.faq-item.active').forEach(item => {
+          if (item !== faqItem) {
+            item.classList.remove('active');
+          }
+        });
+        
+        faqItem.classList.toggle('active', !isActive);
+      } catch (error) {
+        console.error('FAQ toggle error:', error);
+      }
+    }
+
+    // Smooth scrolling with validation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        try {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          if (!targetId || targetId === '#') {
+            console.warn('Invalid scroll target');
+            return;
+          }
+          
+          const target = document.querySelector(targetId);
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          } else {
+            console.warn('Scroll target not found:', targetId);
+          }
+        } catch (error) {
+          console.error('Smooth scroll error:', error);
+        }
+      });
+    });
+
+    // Initialize when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeDemo);
+    } else {
+      initializeDemo();
+    }
+
+    // Cleanup on page unload to prevent memory leaks
+    window.addEventListener('beforeunload', function() {
+      isAnimating = false;
+      clearAllTimeouts();
+    });
+
+    // Cleanup on visibility change (tab switching, etc.)
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        isAnimating = false;
+        clearAllTimeouts();
+      }
+    });
+
+    console.log('SmartPromptz - Authentic story with original design loaded successfully');
+  </script>
+</body>
+</html>
